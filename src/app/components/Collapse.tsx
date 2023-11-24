@@ -2,7 +2,7 @@
 
 import { plusIcon } from '@/app/assets/images';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface CollapseProps {
   title: string;
@@ -11,6 +11,16 @@ interface CollapseProps {
 
 export const Collapse = ({ title, children }: CollapseProps) => {
   const [expanded, setExpanded] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    if (expanded) {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else {
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [expanded]);
 
   return (
     <div className='questions__list'>
@@ -19,7 +29,9 @@ export const Collapse = ({ title, children }: CollapseProps) => {
           <h3>{title}</h3>
           <Image src={plusIcon} alt='more' className={expanded ? 'rotate' : ''} />
         </div>
-        <div className={`questions__box-content ${expanded ? 'expanded' : ''}`}>{children}</div>
+        <div ref={ref} className={`questions__box-content ${expanded ? 'expanded' : ''}`}>
+          {children}
+        </div>
       </div>
     </div>
   );
