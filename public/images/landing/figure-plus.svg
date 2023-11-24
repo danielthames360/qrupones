@@ -1,0 +1,12 @@
+<svg width="136" height="136" viewBox="0 0 136 136" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Periwinkle" opacity="0.626301" filter="url(#filter0_f_29_631)">
+<path d="M29.5716 41.5479C21.4575 17.4056 53.7696 0.844867 68.6303 21.5294C74.3135 29.4398 84.4905 32.7198 93.7232 29.6167C117.866 21.5026 134.426 53.8147 113.742 68.6754C105.831 74.3585 102.551 84.5355 105.654 93.7683C113.769 117.911 81.4565 134.471 66.5958 113.787C60.9126 105.876 50.7356 102.596 41.5028 105.699C17.3605 113.814 0.799821 81.5015 21.4843 66.6408C29.3947 60.9576 32.6747 50.7806 29.5716 41.5479Z" fill="#8482E7"/>
+</g>
+<defs>
+<filter id="filter0_f_29_631" x="0.0965576" y="0.141602" width="135.033" height="135.033" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="6" result="effect1_foregroundBlur_29_631"/>
+</filter>
+</defs>
+</svg>

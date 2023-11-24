@@ -1,0 +1,164 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
+
+.clients {
+  background-color: $background;
+  color: $white;
+  padding: 15rem 0 25rem 0;
+  position: relative;
+
+  @include m.tablet {
+    padding: 15rem 0 47rem 0;
+  }
+
+  &__figure {
+    width: 5rem;
+    position: absolute;
+    height: auto;
+
+    &-plus {
+      top: 5rem;
+      left: 5rem;
+    }
+    &-star {
+      top: 0;
+      right: 4rem;
+    }
+    &-roll {
+      top: 25rem;
+      right: 0;
+    }
+    &-plus2 {
+      right: 2rem;
+      bottom: 20rem;
+    }
+    &-line {
+      bottom: 15rem;
+      left: 5rem;
+      width: 7rem;
+    }
+    &-circle {
+      width: 3rem;
+      top: 34rem;
+    }
+
+    @include m.tablet {
+      width: 11rem;
+      &-roll {
+        top: 35rem;
+      }
+      &-plus2 {
+        right: 5rem;
+        bottom: 30rem;
+      }
+      &-line {
+        left: 10rem;
+        bottom: 20rem;
+      }
+      &-circle {
+        width: 5rem;
+        top: 40rem;
+      }
+    }
+
+    @include m.desktop {
+      &-plus {
+        left: 25rem;
+      }
+      &-star {
+        right: 23rem;
+      }
+      &-roll {
+        top: 22rem;
+      }
+      &-plus2 {
+        right: 25rem;
+      }
+      &-line {
+        left: 40rem;
+      }
+    }
+  }
+
+  &__title {
+    margin-bottom: 8rem;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+
+    @include m.desktop {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    &-box {
+      width: 100%;
+      height: 10rem;
+      flex-shrink: 0;
+      border-radius: 30px;
+      background: #fcfeff;
+      box-shadow:
+        7px 7px 6px 0px rgba(99, 202, 216, 0.1),
+        0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+
+      &::after {
+        content: '';
+        position: absolute;
+        width: 45%;
+        height: 15%;
+        backdrop-filter: blur(5.5px);
+        filter: blur(5.5px);
+        opacity: 10;
+        z-index: 100;
+        border-radius: 50px;
+
+        @include m.tablet {
+          height: 17%;
+        }
+        @include m.desktop {
+          width: 29%;
+          height: 19%;
+        }
+        @include m.large {
+          width: 27%;
+        }
+        @include m.extraLarge {
+          width: 25%;
+        }
+      }
+
+      & img {
+        width: 70%;
+        flex-shrink: 0;
+        z-index: 1000;
+        transition: 0.3s ease;
+        object-fit: contain;
+        height: auto;
+
+        &:hover {
+          scale: 1.2;
+        }
+      }
+
+      @include m.tablet {
+        height: 15rem;
+        & img {
+          width: 55%;
+        }
+      }
+
+      @include m.tablet {
+        height: 18rem;
+        & img {
+          width: 55%;
+        }
+      }
+    }
+  }
+}

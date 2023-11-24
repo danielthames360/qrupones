@@ -1,0 +1,96 @@
+@use 'variables' as *;
+@use '../base/mixins' as m;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 62.5%;
+
+  &::-webkit-scrollbar {
+    background: $background;
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(93deg, $blueQR 10%, $purpleQR 84.41%);
+    border-radius: 2rem;
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: $font-family;
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+}
+
+.contain {
+  width: 90%;
+  margin: 0 auto;
+  max-width: 128rem;
+}
+
+h1,
+h2,
+h3 {
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+h2 {
+  font-size: 2.8rem;
+
+  @include m.tablet {
+    font-size: 4.8rem;
+  }
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+p {
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24.64px;
+
+  @include m.tablet {
+    line-height: 27.72px;
+    font-size: 1.8rem;
+  }
+
+  @include m.desktop {
+    line-height: 30.8px;
+    font-size: 2rem;
+  }
+}
+
+button {
+  flex-shrink: 0;
+  border-radius: 50px;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  text-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
+
+  @include m.tablet {
+    font-size: 1.8rem;
+  }
+
+  @include m.desktop {
+    font-size: 2rem;
+  }
+}

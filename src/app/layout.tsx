@@ -1,8 +1,13 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
-import './styles/globals.css';
+import './styles/style.scss';
 
-const inter = Montserrat({ subsets: ['latin'], display: 'swap', variable: '--font-montserrat' });
+const inter = Montserrat({
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',

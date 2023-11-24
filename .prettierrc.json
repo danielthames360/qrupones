@@ -4,7 +4,7 @@
     "tabWidth": 2,
     "singleQuote": true,
     "jsxSingleQuote": true,
-    "printWidth": 140,
+    "printWidth": 130,
     "plugins": [
         "prettier-plugin-tailwindcss",
         "prettier-plugin-organize-imports"
@@ -14,6 +14,5 @@
     "endOfLine": "lf",
     "quoteProps": "as-needed",
     "arrowParens": "always",
-    "htmlWhitespaceSensitivity": "strict",
-    "singleAttributePerLine": false
+    "htmlWhitespaceSensitivity": "strict"
 }

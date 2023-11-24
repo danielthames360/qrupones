@@ -1,0 +1,71 @@
+@use '../base/variables' as *;
+
+@mixin mobile {
+  @media (min-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: $large) {
+    @content;
+  }
+}
+
+@mixin extraLarge {
+  @media (min-width: $large) {
+    @content;
+  }
+}
+
+@mixin btn-gradient {
+  color: $textBtn;
+  font-size: 1.6rem;
+  padding: 1.2rem 5rem;
+  flex-shrink: 0;
+  background: linear-gradient(93deg, $blueQR -14.26%, $purpleQR 84.41%);
+  box-shadow: -1px 23px 50px 0px rgba(132, 130, 231, 0.16);
+  filter: drop-shadow(0 0 1em #64cad875);
+
+  &:hover {
+    filter: drop-shadow(0 0 1em #64cad875);
+    transition: 0.3s;
+  }
+}
+
+@mixin flexCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@mixin flexBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin wave {
+  position: absolute;
+  width: 105vw;
+  top: -5rem;
+  left: -1.5rem;
+  height: auto;
+}
+
+@mixin waveContain {
+  position: relative;
+}

@@ -1,0 +1,17 @@
+<svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Periwinkle" opacity="0.445629" filter="url(#filter0_f_29_640)">
+<path d="M16.4123 30.3697C8.79268 15.3813 28.3054 1.45984 39.9991 13.5415C44.4712 18.162 51.4333 19.3263 57.1653 16.4123C72.1538 8.79269 86.0752 28.3054 73.9935 39.9991C69.3731 44.4712 68.2088 51.4333 71.1228 57.1653C78.7424 72.1538 59.2296 86.0752 47.5359 73.9935C43.0639 69.3731 36.1017 68.2088 30.3697 71.1228C15.3813 78.7424 1.45983 59.2297 13.5415 47.5359C18.162 43.0639 19.3262 36.1017 16.4123 30.3697Z" fill="url(#paint0_linear_29_640)"/>
+</g>
+<defs>
+<filter id="filter0_f_29_640" x="0.950684" y="0.950684" width="85.6337" height="85.6338" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="4" result="effect1_foregroundBlur_29_640"/>
+</filter>
+<linearGradient id="paint0_linear_29_640" x1="-32.5" y1="-24" x2="99" y2="89" gradientUnits="userSpaceOnUse">
+<stop stop-color="#A77FB6"/>
+<stop offset="1" stop-color="#F2994A" stop-opacity="0"/>
+<stop offset="1" stop-color="#63CAD8"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,0 +1,67 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
+
+.footer {
+  background-color: $background;
+  @include m.waveContain;
+
+  &__wave {
+    @include m.wave;
+    @include m.tablet {
+      top: -10rem;
+    }
+    @include m.desktop {
+      top: -15rem;
+    }
+  }
+
+  &__container {
+    @include m.flexCol;
+    gap: 2rem;
+    color: $white;
+
+    &-logo {
+      width: 20rem;
+      margin-top: 5rem;
+      height: auto;
+      @include m.tablet {
+        width: 25rem;
+      }
+      @include m.desktop {
+        margin-top: 9rem;
+        width: 27rem;
+      }
+      @include m.large {
+        margin-top: 13rem;
+      }
+    }
+
+    &-btn {
+      @include m.btn-gradient;
+      margin-bottom: 2rem;
+
+      @include m.desktop {
+        filter: none;
+      }
+    }
+
+    &-icon {
+      margin-top: 2rem;
+      margin-right: 0.5rem;
+      width: 3rem;
+      height: auto;
+      @include m.tablet {
+        width: 4rem;
+      }
+
+      &:hover {
+        scale: 1.2;
+        transition: 0.3s ease-in-out;
+      }
+    }
+
+    &-copyright {
+      margin: 1.5rem 0 3rem 0;
+    }
+  }
+}

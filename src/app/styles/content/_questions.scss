@@ -1,0 +1,142 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
+
+.questions {
+  margin-bottom: 15rem;
+  @include m.waveContain;
+  @include m.tablet {
+    margin-bottom: 20rem;
+  }
+  @include m.desktop {
+    margin-bottom: 33rem;
+  }
+
+  &__wave {
+    @include m.wave;
+    @include m.tablet {
+      top: -10rem;
+    }
+    @include m.desktop {
+      top: -15rem;
+    }
+  }
+
+  &__container {
+    @include m.flexCol;
+    gap: 3rem;
+    @include m.tablet {
+      gap: 6rem;
+    }
+  }
+
+  &__text {
+    & h2 {
+      color: $blueText;
+      margin-top: 5.2rem;
+
+      @include m.desktop {
+        margin-top: 10rem;
+      }
+      @include m.large {
+        margin-top: 15rem;
+      }
+    }
+    & p {
+      width: 75%;
+      margin: 2rem auto;
+
+      @include m.tablet {
+        width: 65%;
+      }
+      @include m.desktop {
+        width: 60%;
+      }
+    }
+  }
+
+  &__list {
+    @include m.flexCol;
+    gap: 2rem;
+
+    .questions__box {
+      width: 100%;
+      padding: 2rem;
+      color: $blueText;
+      border-radius: 20px;
+      border: 0.5px solid $border;
+      box-shadow: 0px 25px 50px 0px rgba(22, 25, 79, 0.05);
+      cursor: pointer;
+
+      @include m.tablet {
+        width: 85%;
+        padding: 2rem;
+      }
+      @include m.desktop {
+        width: 86rem;
+        padding: 3rem 4rem;
+        gap: 10rem;
+      }
+
+      &-header {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 2rem;
+
+        & h3 {
+          font-size: 1.6rem;
+          text-align: left;
+
+          @include m.tablet {
+            font-size: 1.8rem;
+          }
+          @include m.desktop {
+            font-size: 2rem;
+          }
+        }
+
+        & img {
+          cursor: pointer;
+          width: 1.6rem;
+          height: auto;
+          transition: all 400ms ease;
+
+          @include m.tablet {
+            width: 2.5rem;
+          }
+
+          &.rotate {
+            transform: rotate(45deg);
+          }
+        }
+      }
+
+      &-content {
+        max-height: 0;
+        opacity: 0.4;
+        overflow: hidden;
+        transition: all 400ms ease;
+
+        p {
+          text-align: justify;
+          font-size: 1.5rem;
+          margin-top: 1.5rem;
+
+          @include m.tablet {
+            font-size: 1.6rem;
+          }
+          @include m.desktop {
+            margin-top: 2.5rem;
+            font-size: 1.8rem;
+          }
+        }
+      }
+
+      &-content.expanded {
+        max-height: 90rem;
+        opacity: 1;
+        transition: all 2s ease;
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+@use "../base/variables" as *;
+@use "../base/mixins" as m;
+
+.info {
+  width: 85%;
+  margin: 9rem auto;
+  text-align: center;
+  overflow-x: hidden;
+  
+  &__text {
+    margin: 0 auto;
+
+    @include m.tablet {
+      width: 88%;
+    }
+
+    & h2 {
+      color: $blueText;
+    }
+    & p {
+      width: 78%;
+      margin: 1.5rem auto;
+
+      @include m.tablet {
+        width: 80%;
+      }
+
+      @include m.desktop {
+        width: 60%;
+      }
+    }
+  }
+
+  &__grid {
+    &-img {
+      display: none;
+    }
+
+    &-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      gap: 4rem;
+      margin: 5rem 0 4rem 0;
+    }
+
+    &-text {
+      & h3 {
+        margin-bottom: 1.5rem;
+      }
+      & p {
+        line-height: 23.1px;
+        width: 75%;
+        margin: 0 auto;
+      }
+    }
+
+    @include m.tablet {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include m.desktop {
+      margin-top: 7rem;
+      grid-template-columns: repeat(3, 1fr);
+
+      &-img {
+        display: block;
+      }
+    }
+  }
+}

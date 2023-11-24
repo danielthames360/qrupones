@@ -1,0 +1,17 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
+
+.hero {
+  background-color: $background;
+  background-image: url(/images/landing/bg.png);
+  background-size: cover;
+  background-position: right;
+  color: $white;
+  padding-bottom: 2rem;
+  overflow: hidden;
+  min-height: 100vh;
+
+  @include m.desktop {
+    background-position: center;
+  }
+}
