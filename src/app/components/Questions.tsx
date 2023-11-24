@@ -1,7 +1,9 @@
+'use client';
+
 import { FadeIn } from '@/components';
 import Image from 'next/image';
-import { Collapse } from '.';
 import { wave } from '../assets/images';
+import { Collapse } from './Collapse';
 export const Questions = () => {
   return (
     <>
