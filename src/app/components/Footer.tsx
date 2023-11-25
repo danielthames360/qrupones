@@ -1,5 +1,8 @@
+'use client';
+
 import Image from 'next/image';
 import { facebookIcon, instagramIcon, logoFooter, waveBlack } from '../assets/images';
+import { startWhatsAppChat } from '../utils/generateWhatsappMessage';
 
 export const Footer = () => {
   return (
@@ -9,7 +12,9 @@ export const Footer = () => {
         <div className='footer__container contain'>
           <Image className='footer__container-logo' src={logoFooter} alt='logo' />
 
-          <button className='footer__container-btn'>Contáctanos</button>
+          <button className='footer__container-btn' onClick={startWhatsAppChat}>
+            Contáctanos
+          </button>
 
           <div>
             <a href='https://www.facebook.com/qrupones' target='_blank' rel='noreferrer'>

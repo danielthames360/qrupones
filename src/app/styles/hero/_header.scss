@@ -1,9 +1,10 @@
-@use "../base/variables" as *;
-@use "../base/mixins" as m;
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
 
 .header {
   padding-top: 4.6rem;
   @include m.flexBetween;
+  position: relative;
 
   &__img {
     width: 15rem;
@@ -24,13 +25,15 @@
     z-index: 10;
     padding: 1rem 2rem;
     background: $background;
-    box-shadow: -4px -4px 6px 0px rgba(255, 255, 255, 0.05),
+    box-shadow:
+      -4px -4px 6px 0px rgba(255, 255, 255, 0.05),
       0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: $white;
+    position: relative;
 
-    &:hover{
-    filter: drop-shadow(0 0 2em #cad6f134);
-    transition: .3s ease-in-out;
+    &:hover {
+      filter: drop-shadow(0 0 2em #cad6f134);
+      transition: 0.3s ease-in-out;
     }
 
     @include m.tablet {
@@ -42,4 +45,60 @@
     }
   }
 
+  &__menu {
+    width: 18.5rem;
+    height: 13rem;
+    position: absolute;
+    top: 96%;
+    right: 0;
+    display: none;
+
+    z-index: 5;
+    border-radius: 2rem;
+    backdrop-filter: blur(1rem);
+    filter: drop-shadow(0 0 1em #16191c);
+    box-shadow:
+      -4px -4px 6px 0px rgba(255, 255, 255, 0.05),
+      0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.4s ease;
+
+    &.is-visible {
+      display: flex;
+    }
+
+    button {
+      border-radius: 0;
+      font-size: 2rem;
+      width: 100%;
+      font-weight: 800;
+      padding: 1rem;
+      background: transparent;
+      color: white;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      background: linear-gradient(93deg, $purpleQR 10%, $greenQR 30%, $purpleQR 50%, $blueQR 70%, $purpleQR 90%);
+      -webkit-background-clip: text;
+      background-size: 500% auto;
+
+      animation: textShine 5s ease-in-out infinite alternate;
+      transition: 900ms ease-in-out;
+      &:hover {
+        -webkit-text-fill-color: $background;
+        background: linear-gradient(93deg, $blueQR 10%, $purpleQR 84.41%);
+      }
+    }
+  }
+}
+
+@keyframes textShine {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
 }

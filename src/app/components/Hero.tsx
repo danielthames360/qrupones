@@ -4,7 +4,12 @@ import { logoHeader, phoneDesk, phoneMob, phoneTablet } from '@/app/assets/image
 import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useState } from 'react';
+import { startWhatsAppChat } from '../utils/generateWhatsappMessage';
+
 export const Hero = () => {
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+
   return (
     <>
       <div className='hero'>
@@ -12,7 +17,24 @@ export const Hero = () => {
           <a href='/'>
             <Image src={logoHeader} className='header__img' alt='QRupones logo' priority />
           </a>
-          <button className='header__button'>Ingresar</button>
+          <button
+            className='header__button'
+            onClick={() => {
+              setIsMenuVisible(!isMenuVisible);
+            }}
+            onMouseEnter={() => {
+              setIsMenuVisible(true);
+            }}>
+            Ingresar
+          </button>
+          <div
+            className={`header__menu ${isMenuVisible ? 'is-visible' : ''}`}
+            onMouseLeave={() => {
+              setIsMenuVisible(false);
+            }}>
+            <button>Ver mis Qrupones</button>
+            <button>Ingresar al sistema</button>
+          </div>
         </div>
 
         <div className='hero__content content contain'>
@@ -25,7 +47,9 @@ export const Hero = () => {
               Tu negocio crece, tus clientes ahorran.
             </FadeIn>
 
-            <button className='content__info-btn'>Empezar</button>
+            <button className='content__info-btn' onClick={startWhatsAppChat}>
+              Empezar
+            </button>
           </div>
 
           <picture>
