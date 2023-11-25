@@ -1,6 +1,6 @@
 'use client';
 
-import { business, dashboard, marketing, qr, sales, store, whatsApp } from '@/app/assets/images';
+import { business, dashboard, marketing, qr, sales, store, whatsApp } from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import Image from 'next/image';
 import { isMobileOnly } from 'react-device-detect';

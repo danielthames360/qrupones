@@ -13,7 +13,7 @@ import {
   rollFigure,
   sergiosLogo,
   starFigure,
-} from '@/app/assets/images';
+} from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';

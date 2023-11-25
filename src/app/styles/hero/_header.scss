@@ -21,6 +21,31 @@
     }
   }
 
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+
+  &__link {
+    font-size: 2rem;
+    width: 100%;
+    font-weight: 800;
+    background: transparent;
+    color: white;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    background: linear-gradient(93deg, $purpleQR 10%, $greenQR 30%, $purpleQR 50%, $blueQR 70%, $purpleQR 90%);
+    -webkit-background-clip: text;
+    background-size: 500% auto;
+
+    animation: textShine 5s ease-in-out infinite alternate;
+    transition: 300ms ease-in-out;
+    cursor: pointer;
+  }
+
   &__button {
     z-index: 10;
     padding: 1rem 2rem;
@@ -30,18 +55,20 @@
       0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     color: $white;
     position: relative;
+    transition: 0.3s ease-in-out;
+    display: none;
 
     &:hover {
       filter: drop-shadow(0 0 2em #cad6f134);
-      transition: 0.3s ease-in-out;
     }
 
     @include m.tablet {
       padding: 1rem 4rem;
+      display: block;
     }
 
     @include m.tablet {
-      padding: 1.2rem 5rem;
+      padding: 1.2rem 4rem;
     }
   }
 

@@ -37,3 +37,9 @@ export { default as waveBlack } from '/public/images/landing/wave-black.svg';
 export { default as logoFooter } from '/public/images/landing/logo-footer.png';
 export { default as facebookIcon } from '/public/images/landing/fb-icon.png';
 export { default as instagramIcon } from '/public/images/landing/insta-icon.png';
+
+
+//Icons
+
+export { default as chevronUp } from '/public/images/landing/icons/chevronUp.png';
+export { default as tinyChevronUp } from '/public/images/landing/icons/tinyChevronUp.png';

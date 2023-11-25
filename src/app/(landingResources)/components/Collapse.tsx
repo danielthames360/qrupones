@@ -1,6 +1,6 @@
 'use client';
 
-import { plusIcon } from '@/app/assets/images';
+import { plusIcon } from '@/app/(landingResources)/assets/images';
 import Image from 'next/image';
 import { useState } from 'react';
 

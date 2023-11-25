@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
-import { Clients, Footer, Hero, Questions } from './components';
-const Info = dynamic(() => import('./components/Info'), { ssr: false });
+import { Clients, Footer, Hero, Questions } from './(landingResources)/components';
+const Info = dynamic(() => import('./(landingResources)/components/Info'), { ssr: false });
 
 export default function Home() {
   return (

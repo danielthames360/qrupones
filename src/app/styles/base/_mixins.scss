@@ -33,6 +33,7 @@
 @mixin btn-gradient {
   color: $textBtn;
   font-size: 1.6rem;
+  font-weight: 700;
   padding: 1.2rem 5rem;
   flex-shrink: 0;
   background: linear-gradient(93deg, $blueQR -14.26%, $purpleQR 84.41%);
