@@ -48,6 +48,9 @@
       &-slogan {
         font-size: 2.4rem;
       }
+      &-cta {
+        display: none;
+      }
     }
 
     @include m.desktop {
@@ -64,12 +67,6 @@
       }
 
       &-btn {
-        align-self: start;
-        font-size: 2rem;
-        filter: none;
-      }
-
-      &-cta {
         align-self: start;
         font-size: 2rem;
         filter: none;
