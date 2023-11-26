@@ -1,6 +1,6 @@
 'use client';
 
-import { chevronUp, logoHeader, phoneDesk, phoneMob, phoneTablet } from '@/app/(landingResources)/assets/images';
+import { bg, chevronUp, logoHeader, phoneDesk, phoneMob, phoneTablet } from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -11,6 +11,16 @@ export const Hero = () => {
   return (
     <>
       <div className='hero'>
+        <Image
+          alt='Background Image'
+          src={bg}
+          placeholder='blur'
+          quality={100}
+          objectFit='cover'
+          objectPosition='right'
+          fill
+          priority
+        />
         <div className='header contain'>
           <a href='/'>
             <Image src={logoHeader} className='header__img' alt='QRupones logo' priority />

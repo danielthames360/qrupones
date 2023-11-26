@@ -1,4 +1,5 @@
 //HeroPage
+export { default as bg } from '/public/images/landing/bg.png';
 export { default as logoHeader } from '/public/images/landing/logo-header.png';
 export { default as phoneDesk } from '/public/images/landing/phone-desk.png';
 export { default as phoneTablet } from '/public/images/landing/phone-tablet.png';

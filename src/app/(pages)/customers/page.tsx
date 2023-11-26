@@ -1,4 +1,4 @@
-import { chevronUp, facebookIcon, instagramIcon } from '@/app/(landingResources)/assets/images';
+import { bg, chevronUp, facebookIcon, instagramIcon } from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,11 +8,22 @@ const page = () => {
   return (
     <>
       <div className='hero'>
+        <Image
+          alt='Background Image'
+          src={bg}
+          placeholder='blur'
+          quality={100}
+          objectFit='cover'
+          objectPosition='right'
+          fill
+          priority
+          style={{ zIndex: -1 }}
+        />
         <FadeIn
           as={'div'}
           origin='right'
           delay={1000}
-          className='flex justify-end items-end w-10/12 md:w-8/12 m-auto mt-32 gap-1'>
+          className='flex justify-end items-end w-10/12 md:w-8/12 m-auto mt-32 gap-1 '>
           <Image src={chevronUp} alt='icon' width={14} height={14} className='pt-[.45rem] w-5 rotate-180 h-auto' />
 
           <Link className='button font-bold text-slate-300' href='/'>
