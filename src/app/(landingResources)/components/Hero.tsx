@@ -44,7 +44,7 @@ export const Hero = () => {
               </button>
             </FadeIn>
 
-            <FadeIn as={'div'} duration={3000} delay={800} className='flex justify-center items-center gap-1'>
+            <FadeIn as={'div'} duration={3000} delay={800} className='flex justify-center items-center gap-1 sm:hidden'>
               <a href='https://app.qrupones.com/' rel='noreferrer' target='_blank' className='content__info-cta button'>
                 Iniciar sesión
               </a>

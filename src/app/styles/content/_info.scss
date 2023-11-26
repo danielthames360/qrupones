@@ -1,12 +1,12 @@
-@use "../base/variables" as *;
-@use "../base/mixins" as m;
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
 
 .info {
   width: 85%;
   margin: 9rem auto;
   text-align: center;
   overflow-x: hidden;
-  
+
   &__text {
     margin: 0 auto;
 
