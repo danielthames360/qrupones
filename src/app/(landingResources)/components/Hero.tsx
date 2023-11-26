@@ -22,7 +22,7 @@ export const Hero = () => {
               </Link>
             </FadeIn>
 
-            <a href='https://app.qrupones.com/' rel='noreferrer' className='header__button button'>
+            <a href='https://app.qrupones.com/' target='_blank' rel='noreferrer' className='header__button button'>
               Iniciar sesión
             </a>
           </div>

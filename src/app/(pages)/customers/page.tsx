@@ -2,6 +2,7 @@ import { chevronUp, facebookIcon, instagramIcon } from '@/app/(landingResources)
 import { FadeIn } from '@/components';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Wave } from './Wave';
 import { building } from './assets/images';
 const page = () => {
   return (
@@ -14,20 +15,25 @@ const page = () => {
             Volver
           </Link>
         </div>
+
         <div className='contain mt-32 md:mt-12 flex justify-center items-center flex-col text-center'>
-          <Image className='w-full h-auto m-auto sm:w-5/12 mb-16 animate-pulse' src={building} alt='building' />
-          <FadeIn as='h1' duration={3000} className='content__info-title text-center md:w-10/12'>
+          <Wave />
+
+          <FadeIn as={'div'} className='w-full h-auto mb-16  z-20' delay={900}>
+            <Image className='w-full h-auto m-auto sm:w-5/12' src={building} alt='building' />
+          </FadeIn>
+          <FadeIn as='h1' duration={3000} delay={1000} className='text-7xl text-center md:w-10/12  z-20'>
             Esta página está en construcción
           </FadeIn>
           <FadeIn
             as='p'
             duration={3000}
-            delay={500}
-            className='text-center mt-3 w-10/12 md:w-6/12 font-bold mx-auto  text-slate-300'>
+            delay={1500}
+            className='text-center mt-3 w-10/12 md:w-6/12 font-bold mx-auto  text-slate-300  z-20'>
             Mantente conectado a nuestras redes sociales para recibir actualizaciones.
           </FadeIn>
 
-          <FadeIn as='div' duration={3000} delay={1000} className='text-center mt-3 w-10/12 md:w-6/12 font-bold mx-auto'>
+          <FadeIn as='div' duration={3000} delay={2000} className='text-center mt-3 w-10/12 md:w-6/12 font-bold mx-auto'>
             <a href='https://www.facebook.com/qrupones' target='_blank' rel='noreferrer'>
               <Image className='footer__container-icon' src={facebookIcon} alt='facebook' />
             </a>
