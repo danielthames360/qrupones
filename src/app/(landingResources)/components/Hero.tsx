@@ -14,20 +14,18 @@ export const Hero = () => {
         <Image
           alt='Background Image'
           src={bg}
-          placeholder='blur'
           quality={100}
-          objectFit='cover'
-          objectPosition='right'
+          style={{ objectFit: 'cover', objectPosition: 'right' }}
           fill
           priority
         />
         <div className='header contain'>
           <a href='/'>
-            <Image src={logoHeader} className='header__img' alt='QRupones logo' priority />
+            <Image src={logoHeader} className='header__img' alt='QRupones logo' />
           </a>
           <div className='header__buttons'>
             <FadeIn as={'div'} origin='right' delay={1300} hoverScale={1.15} className='text-center'>
-              <Link className='header__link' href='/customers'>
+              <Link className='header__link' href='/customers' prefetch={false}>
                 Ver mis Qrupones
               </Link>
             </FadeIn>
@@ -63,8 +61,20 @@ export const Hero = () => {
           </div>
 
           <picture>
-            <source media='(min-width: 1024px)' srcSet={phoneDesk.src} type='image/webp' />
-            <source media='(min-width: 768px)' srcSet={phoneTablet.src} type='image/webp' />
+            <source
+              media='(min-width: 1024px)'
+              srcSet={phoneDesk.src}
+              width={phoneDesk.width}
+              height={phoneDesk.height}
+              type='image/webp'
+            />
+            <source
+              media='(min-width: 768px)'
+              srcSet={phoneTablet.src}
+              width={phoneTablet.width}
+              height={phoneTablet.height}
+              type='image/webp'
+            />
             <source srcSet={phoneMob.src} type='image/webp' />
             <motion.img
               initial={{ translateY: -25 }}
@@ -75,6 +85,8 @@ export const Hero = () => {
                 ease: 'easeInOut',
                 repeatType: 'mirror',
               }}
+              width={phoneMob.width}
+              height={phoneMob.height}
               className='content__img'
               alt='Iphone'
               loading='eager'
