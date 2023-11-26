@@ -34,7 +34,7 @@ const page = () => {
         <div className='contain mt-32 md:mt-12 flex justify-center items-center flex-col text-center'>
           <Wave />
 
-          <FadeIn as={'div'} className='w-full h-auto mb-16  z-20' delay={400}>
+          <FadeIn as={'div'} className='w-full h-auto mb-16 z-20' delay={400}>
             <Image className='w-full h-auto m-auto sm:w-5/12' src={building} alt='building' />
           </FadeIn>
           <FadeIn as='h1' duration={3000} delay={500} className='text-7xl text-center md:w-10/12  z-20'>

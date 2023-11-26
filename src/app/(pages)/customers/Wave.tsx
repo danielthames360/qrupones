@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 export const Wave = () => {
   return (
     <svg
-      className='absolute left-0 z-10 top-[35rem] sm:top-72'
+      className='absolute left-0 z-10 top-[35rem] sm:top-72 xl:top-28'
       viewBox='0 0 1440 363'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>
