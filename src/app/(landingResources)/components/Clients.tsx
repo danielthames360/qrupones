@@ -13,6 +13,7 @@ import {
   rollFigure,
   sergiosLogo,
   starFigure,
+  rosarioLogo,
 } from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
@@ -84,12 +85,13 @@ export const Clients = () => {
 
         <div className='clients__container contain'>
           <FadeIn as='h2' origin={'bottom'} className='clients__title'>
-            Nuestros Clientes
+            Algunos de Nuestros Clientes
           </FadeIn>
 
           <div className='clients__grid'>
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={bretoLogo} alt='Breto Logo' />
+
+          <div className='clients__grid-box'>
+              <FadeIn duration={500} delay={100} as='img' src={sergiosLogo} alt='Sergios Logo' />
             </div>
 
             <div className='clients__grid-box'>
@@ -97,15 +99,15 @@ export const Clients = () => {
             </div>
 
             <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={sergiosLogo} alt='Sergios Logo' />
+              <FadeIn duration={500} delay={100} as='img' src={raphaellaLogo} alt='Raphaella Booz Logo' />
             </div>
-
+            
             <div className='clients__grid-box'>
               <FadeIn duration={500} delay={100} as='img' src={empacarLogo} alt='Empacar Express Logo' />
             </div>
 
             <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={raphaellaLogo} alt='Raphaella Booz Logo' />
+              <FadeIn duration={500} delay={100} as='img' src={rosarioLogo} alt='Rosario Logo' />
             </div>
 
             <div className='clients__grid-box'>
