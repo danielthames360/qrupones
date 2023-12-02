@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     description:
       'Escanea, ahorra, disfruta. Impulsando lealtad, generando ahorro. Incentiva a tus clientes a volver a tu negocio, beneficiándolos con cupones de descuentos para premiar su fidelidad e incentivar las recompras!',
     creator: '@danielthames',
-    images: ['https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png'],
+    images: [og.src],
   },
 };
 
