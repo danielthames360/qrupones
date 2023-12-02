@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
+import { og } from './(landingResources)/assets/images';
 import './styles/style.scss';
 
 const inter = Montserrat({
@@ -35,25 +36,11 @@ export const metadata: Metadata = {
     siteName: 'Qrupones',
     images: [
       {
-        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
+        url: og.src,
         width: 962,
         height: 256,
         alt: 'Qrupones',
         href: 'qrupones.com',
-      },
-      {
-        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
-        width: 962,
-        height: 256,
-        alt: 'Qrupones',
-        href: 'https://qrupones.com',
-      },
-      {
-        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
-        width: 962,
-        height: 256,
-        alt: 'Qrupones',
-        href: 'https://qrupones.com/',
       },
     ],
   },

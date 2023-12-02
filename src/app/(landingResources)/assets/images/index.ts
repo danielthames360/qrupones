@@ -1,4 +1,7 @@
-//HeroPage
+//Preview
+export { default as og } from '/public/images/landing/og.png';
+
+// Hero
 export { default as bg } from '/public/images/landing/bg.png';
 export { default as logoHeader } from '/public/images/landing/logo-header.png';
 export { default as phoneDesk } from '/public/images/landing/phone-desk.png';
