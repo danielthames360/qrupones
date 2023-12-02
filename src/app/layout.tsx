@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: 'Qrupones',
     images: [
       {
-        url: '/public/images/landing/logo-header.png',
+        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
         width: 962,
         height: 256,
         alt: 'Qrupones',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     description:
       'Escanea, ahorra, disfruta. Impulsando lealtad, generando ahorro. Incentiva a tus clientes a volver a tu negocio, beneficiándolos con cupones de descuentos para premiar su fidelidad e incentivar las recompras!',
     creator: '@danielthames',
-    images: ['/public/images/landing/logo-header.png'],
+    images: ['https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png'],
   },
 };
 
