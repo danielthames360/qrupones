@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'es_ES',
-    url: 'https://qrupones.com/',
+    url: 'https://qrupones.com',
     siteName: 'Qrupones',
     images: [
       {
@@ -39,6 +39,21 @@ export const metadata: Metadata = {
         width: 962,
         height: 256,
         alt: 'Qrupones',
+        hostname: 'qrupones.com',
+      },
+      {
+        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
+        width: 962,
+        height: 256,
+        alt: 'Qrupones',
+        hostname: 'https://qrupones.com',
+      },
+      {
+        url: 'https://qrupones.com/_next/static/media/phone-tablet.7716fae3.png',
+        width: 962,
+        height: 256,
+        alt: 'Qrupones',
+        hostname: 'https://qrupones.com/',
       },
     ],
   },
