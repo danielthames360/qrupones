@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
-import { og } from './(landingResources)/assets/images';
 import './styles/style.scss';
 
 const inter = Montserrat({
@@ -36,7 +35,7 @@ export const metadata: Metadata = {
     siteName: 'Qrupones',
     images: [
       {
-        url: og.src,
+        url: 'https://qrupones.com/_next/static/media/og.61ac9a66.png',
         width: 962,
         height: 256,
         alt: 'Qrupones',
@@ -50,7 +49,7 @@ export const metadata: Metadata = {
     description:
       'Escanea, ahorra, disfruta. Impulsando lealtad, generando ahorro. Incentiva a tus clientes a volver a tu negocio, beneficiándolos con cupones de descuentos para premiar su fidelidad e incentivar las recompras!',
     creator: '@danielthames',
-    images: [og.src],
+    images: ['https://qrupones.com/_next/static/media/og.61ac9a66.png'],
   },
 };
 
