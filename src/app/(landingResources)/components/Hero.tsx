@@ -24,7 +24,7 @@ export const Hero = () => {
             <Image src={logoHeader} className='header__img' alt='QRupones logo' />
           </a>
           <div className='header__buttons'>
-            <FadeIn as={'div'} origin='right' delay={1300} hoverScale={1.15} className='text-center'>
+            <FadeIn as={'div'} origin='right' hoverScale={1.15} className='text-center'>
               <Link className='header__link' href='/customers' prefetch={false}>
                 Ver mis Qrupones
               </Link>
@@ -38,21 +38,21 @@ export const Hero = () => {
 
         <div className='hero__content content contain'>
           <div className='content__info'>
-            <FadeIn as='h1' duration={3000} className='content__info-title'>
+            <FadeIn as='h1' duration={3000} delay={400} className='content__info-title'>
               Potencia la reCompra y fidelización de tus clientes
             </FadeIn>
 
-            <FadeIn as='p' duration={3000} delay={400} className='content__info-slogan'>
+            <FadeIn as='p' duration={3000} delay={900} className='content__info-slogan'>
               Tu negocio crece, tus clientes ahorran.
             </FadeIn>
 
-            <FadeIn as={'div'} duration={3000} delay={800} className='w-full lg:text-left'>
+            <FadeIn as={'div'} duration={3000} delay={1400} className='w-full lg:text-left'>
               <button className='content__info-btn' onClick={startWhatsAppChat}>
                 Quiero empezar
               </button>
             </FadeIn>
 
-            <FadeIn as={'div'} duration={3000} delay={800} className='flex justify-center items-center gap-1 sm:hidden'>
+            <FadeIn as={'div'} duration={3000} delay={1400} className='flex justify-center items-center gap-1 sm:hidden'>
               <a href='https://app.qrupones.com/' rel='noreferrer' target='_blank' className='content__info-cta button'>
                 Iniciar sesión
               </a>
