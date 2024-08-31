@@ -24,7 +24,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  // min-height: 100vh;
   font-family: $font-family;
   overflow-x: hidden;
 }
@@ -77,26 +77,6 @@ a {
   text-decoration: none;
 }
 
-button {
-  flex-shrink: 0;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  text-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
-
-  @include m.tablet {
-    font-size: 1.8rem;
-  }
-
-  @include m.desktop {
-    font-size: 2rem;
-  }
-}
-
 .button {
   flex-shrink: 0;
   border-radius: 50px;
@@ -108,11 +88,98 @@ button {
   cursor: pointer;
   text-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
 
+  &:hover {
+    filter: drop-shadow(0 0 1em #a77fb6);
+    transition: 0.3s;
+  }
+
   @include m.tablet {
     font-size: 1.8rem;
   }
 
   @include m.desktop {
+    font-size: 2rem;
+  }
+}
+
+.inputPhone {
+  width: 200px !important;
+
+  @include m.tablet {
+    width: 250px !important;
+  }
+}
+
+.button-page {
+  background-color: #a77fb6;
+  color: white;
+  padding: 1.25rem 10rem;
+  font-size: 1.6rem;
+  box-shadow: 0px 2px 6px 0px rgba(255, 255, 255, 0.05);
+}
+
+.button-coupons {
+  box-shadow: 0px 2px 6px 0px #616161;
+  color: white;
+
+  &:hover {
+    filter: drop-shadow(0 0 1em #27272784);
+    transition: 0.3s;
+  }
+}
+
+.coupon {
+  position: relative;
+  background-color: #f3f3f3;
+  padding: 1.25rem 2.5rem;
+  // box-shadow: 10px 10px 20px 1px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  &::after {
+    @include m.couponCard;
+  }
+
+  &::before {
+    @include m.couponCard;
+    left: -25px;
+  }
+}
+
+.scroll {
+  z-index: 10;
+  &::-webkit-scrollbar {
+    background: #ececec; /* color of the tracking area */
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+  }
+}
+
+.category {
+  color: black;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24.64px;
+
+  & span{
+    cursor: pointer;
+  }
+
+  &-select{
+    font-weight: bold;
+  }
+
+  @include m.tablet {
+    line-height: 27.72px;
+    font-size: 1.8rem;
+  }
+
+  @include m.desktop {
+    line-height: 30.8px;
     font-size: 2rem;
   }
 }

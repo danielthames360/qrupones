@@ -59,6 +59,18 @@
   align-items: center;
 }
 
+@mixin couponCard {
+  position: absolute;
+  content: '';
+  height: 40px;
+  right: -25px;
+  border-radius: 40px;
+  z-index: 1;
+  top: 70px;
+  background-color: white;
+  width: 40px;
+}
+
 @mixin wave {
   position: absolute;
   width: 105vw;
