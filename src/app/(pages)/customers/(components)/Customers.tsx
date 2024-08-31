@@ -2,13 +2,19 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import { access, circleFigure, lineFigure, plusFigure, plusSmallFigure, rollFigure, starFigure } from '../assets/images';
 import { InputPhone } from './InputPhone';
 
 export const Customers = () => {
   const [inputPhone, setInputPhone] = useState<string>('');
+  const [isValidPhone, setIsValidPhone] = useState(false);
+
+  const handleClick = () => {
+    if (!inputPhone || !isValidPhone) return;
+
+    alert(inputPhone);
+  };
 
   return (
     <>
@@ -86,12 +92,12 @@ export const Customers = () => {
 
           <form className='flex flex-col mt-10 gap-5 text-center'>
             <p className='text-2xl'>Ingresa tu número</p>
-            <InputPhone input={inputPhone} setInput={setInputPhone} />
+            <InputPhone input={inputPhone} setInput={setInputPhone} setIsValidPhone={setIsValidPhone} />
           </form>
 
-          <Link className='button button-page mt-10 2xl:mt-20' href='/coupons'>
+          <button onClick={handleClick} className='button button-page mt-10 2xl:mt-20'>
             Enviar
-          </Link>
+          </button>
         </div>
       </div>
     </>
