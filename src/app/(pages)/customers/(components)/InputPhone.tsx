@@ -8,6 +8,7 @@ interface InputPhoneProps {
   input: string;
   setInput: Dispatch<SetStateAction<string>>;
   setIsValidPhone: Dispatch<SetStateAction<boolean>>;
+  setCountryCode: Dispatch<SetStateAction<string>>;
 }
 
 interface Country {
@@ -21,7 +22,7 @@ interface Country {
   localName: string;
 }
 
-const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone }: InputPhoneProps): JSX.Element {
+const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone, setCountryCode }: InputPhoneProps): JSX.Element {
   return (
     <PhoneInput
       dropdownStyle={{ textAlign: 'left' }}
@@ -39,6 +40,7 @@ const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone }
           setIsValidPhone(false);
         } else {
           setIsValidPhone(true);
+          setCountryCode((country as Country).countryCode);
         }
         return isValid;
       }}

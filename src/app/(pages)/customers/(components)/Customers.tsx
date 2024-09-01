@@ -1,19 +1,56 @@
 'use client';
 
+import { ApiResponseInterface } from '@/interfaces';
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import { access, circleFigure, lineFigure, plusFigure, plusSmallFigure, rollFigure, starFigure } from '../assets/images';
 import { InputPhone } from './InputPhone';
 
+const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
+const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
+
 export const Customers = () => {
   const [inputPhone, setInputPhone] = useState<string>('');
   const [isValidPhone, setIsValidPhone] = useState(false);
+  const [countryCode, setCountryCode] = useState<string>('591');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [codeSent, setCodeSent] = useState<boolean>(false);
+  const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
 
-  const handleClick = () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!inputPhone || !isValidPhone) return;
 
-    alert(inputPhone);
+    setIsSubmitting(true);
+    const phoneNumberWithoutCountryCode = inputPhone.startsWith(countryCode) ? inputPhone.slice(countryCode.length) : inputPhone;
+
+    try {
+      const { data } = await axios.post<ApiResponseInterface>(
+        `${backendUrl}/notifications`,
+        {
+          number: phoneNumberWithoutCountryCode,
+          countryCode: countryCode,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${backendKey}`,
+          },
+        }
+      );
+      if (data.success) {
+        setCodeSent(true);
+      } else {
+        setShowErrorMessage(true);
+        console.log(data.message);
+      }
+    } catch (error: any) {
+      setShowErrorMessage(true);
+      console.error('Error al enviar la notificación:', error.response ? error.response.data : error.message);
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -83,22 +120,41 @@ export const Customers = () => {
           alt='Plus2 Figure'
         />
 
-        <div className='w-[70vw] h-[80vh] flex flex-col justify-center items-center'>
-          <Image src={access} alt='Access Image' />
+        {!codeSent ? (
+          <div className='w-[70vw] h-[80vh] flex flex-col justify-center items-center'>
+            <Image src={access} alt='Access Image' />
 
-          <p className='text-center sm:w-[50vh] md:w-[60vh] 2xl:w-[40vh]'>
-            Te enviaremos un <b>acceso único</b> a este número por whatsapp
-          </p>
+            <p className='text-center sm:w-[50vh] md:w-[60vh] 2xl:w-[40vh]'>
+              Te enviaremos un <b>acceso único</b> a este número por whatsapp
+            </p>
 
-          <form className='flex flex-col mt-10 gap-5 text-center'>
-            <p className='text-2xl'>Ingresa tu número</p>
-            <InputPhone input={inputPhone} setInput={setInputPhone} setIsValidPhone={setIsValidPhone} />
-          </form>
+            {showErrorMessage && (
+              <p className='my-5 text-2xl text-red-500 font-medium'>No se pudo encontrar el número de WhatsApp</p>
+            )}
 
-          <button onClick={handleClick} className='button button-page mt-10 2xl:mt-20'>
-            Enviar
-          </button>
-        </div>
+            <form className='flex flex-col mt-10 gap-5 text-center' onSubmit={handleSubmit}>
+              <p className='text-2xl'>Ingresa tu número</p>
+              <InputPhone
+                input={inputPhone}
+                setInput={setInputPhone}
+                setIsValidPhone={setIsValidPhone}
+                setCountryCode={setCountryCode}
+              />
+              <button
+                type='submit'
+                className={`button button-page mt-9 2xl:mt-16 ${isSubmitting && 'cursor-not-allowed'}`}
+                disabled={isSubmitting}>
+                {isSubmitting ? 'Enviando...' : 'Enviar'}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className='w-[70vw] h-[80vh] flex flex-col justify-center items-center'>
+            <p className='text-center sm:w-[50vh] md:w-[60vh] 2xl:w-[40vh]'>
+              Te enviamos un <b>acceso único</b> al <b>+{inputPhone}</b> por WhatsApp, por favor revisa tus mensajes. 📲
+            </p>
+          </div>
+        )}
       </div>
     </>
   );
