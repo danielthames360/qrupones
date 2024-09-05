@@ -1,4 +1,7 @@
-export interface ApiResponseInterface {
+
+
+export interface ApiResponseInterface<T = undefined> {
     success: boolean,
-    message: string
+    message: string,
+    data?: T
 }

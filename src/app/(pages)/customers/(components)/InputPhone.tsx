@@ -23,6 +23,15 @@ interface Country {
 }
 
 const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone, setCountryCode }: InputPhoneProps): JSX.Element {
+  const handleInputChange = (inputNumber: string, country: any) => {
+    setInput(inputNumber);
+    const isValid = validateOptionalPhoneNumber(inputNumber, getLocaleCodeFromPhoneCode((country as Country).countryCode));
+    setIsValidPhone(typeof isValid !== 'string');
+    if (typeof isValid !== 'string') {
+      setCountryCode((country as Country).dialCode);
+    }
+  };
+
   return (
     <PhoneInput
       dropdownStyle={{ textAlign: 'left' }}
@@ -31,17 +40,11 @@ const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone, 
       country={'bo'}
       localization={es}
       value={input}
-      onChange={setInput}
+      onChange={handleInputChange}
       enableLongNumbers={true}
       countryCodeEditable={true}
       isValid={(inputNumber, country) => {
         const isValid = validateOptionalPhoneNumber(inputNumber, getLocaleCodeFromPhoneCode((country as Country).countryCode));
-        if (typeof isValid === 'string') {
-          setIsValidPhone(false);
-        } else {
-          setIsValidPhone(true);
-          setCountryCode((country as Country).countryCode);
-        }
         return isValid;
       }}
     />

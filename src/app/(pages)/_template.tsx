@@ -10,7 +10,7 @@ export default function template({ children }: { children: React.ReactNode }) {
       exit={{ x: 300, opacity: 0 }}
       transition={{
         type: 'spring',
-        stiffness: 260,
+        stiffness: 360,
         damping: 20,
       }}>
       {children}
