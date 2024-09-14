@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const CouponPage = ({ params }: { params: { code: string } }) => {
-  const { validateSession, session } = useSession();
+  const { validateSession, verificationCode, hasHydrated } = useSession();
   const router = useRouter();
   const [isSessionValid, setIsSessionValid] = useState<boolean | null>(null);
 
   useEffect(() => {
     const validate = async () => {
-      if (!session) {
+      if (!hasHydrated) return;
+
+      if (!verificationCode) {
         const isValid = await validateSession(params.code);
         setIsSessionValid(isValid);
       } else {
@@ -20,7 +22,7 @@ const CouponPage = ({ params }: { params: { code: string } }) => {
     };
 
     validate();
-  }, [params.code, session, validateSession, router]);
+  }, [params.code, verificationCode, validateSession, router, hasHydrated]);
 
   if (isSessionValid === null) {
     return (

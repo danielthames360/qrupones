@@ -47,3 +47,7 @@ export { default as logoFooter } from '/public/images/landing/logo-footer.png';
 
 export { default as chevronUp } from '/public/images/landing/icons/chevronUp.png';
 export { default as tinyChevronUp } from '/public/images/landing/icons/tinyChevronUp.png';
+
+
+//Coupons
+export { default as emptyTag } from '/public/images/coupons/emptyTag.png';

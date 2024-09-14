@@ -1,22 +1,23 @@
 'use client';
 
-import { bretoLogo } from '@/app/(landingResources)/assets/images';
+import { emptyTag } from '@/app/(landingResources)/assets/images';
 import { ApiResponseInterface, CouponsHistoryInterface } from '@/interfaces';
+import { useGlobalStore } from '@/store/store';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
-const fetchCoupons = async (): Promise<CouponsHistoryInterface[] | undefined> => {
+const fetchCoupons = async (code: string): Promise<CouponsHistoryInterface[] | undefined> => {
   try {
     const { data } = await axios.post<ApiResponseInterface<CouponsHistoryInterface[]>>(
       `${backendUrl}/coupons/getCouponsHistory`,
       {
-        number: '77655430', // Debe ser dinámico según el usuario
-        countryCode: '591', // Debe ser dinámico también
+        code,
       },
       {
         headers: {
@@ -36,21 +37,26 @@ const fetchCoupons = async (): Promise<CouponsHistoryInterface[] | undefined> =>
   }
 };
 export const TableHistory = () => {
+  const { verificationCode, hasHydrated } = useGlobalStore((state) => state);
+
   const [coupons, setCoupons] = useState<CouponsHistoryInterface[]>([]);
   const [filteredCoupons, setFilteredCoupons] = useState<CouponsHistoryInterface[]>([]);
   const [filter, setFilter] = useState<string>('Todos');
 
+  const router = useRouter();
+
   useEffect(() => {
+    if (!hasHydrated) return;
+    if (!verificationCode) return router.push('/customers');
     const loadCoupons = async () => {
-      const data = await fetchCoupons();
+      const data = await fetchCoupons(verificationCode);
       if (data) {
         setCoupons(data);
-        setFilteredCoupons(data);
       }
     };
 
     loadCoupons();
-  }, []);
+  }, [hasHydrated, router, verificationCode]);
 
   useEffect(() => {
     let filtered = coupons;
@@ -63,6 +69,15 @@ export const TableHistory = () => {
 
     setFilteredCoupons(filtered);
   }, [filter, coupons]);
+
+  if (coupons.length === 0) {
+    return (
+      <div className='flex justify-center items-center mt-16 flex-col'>
+        <Image src={emptyTag} alt='Empty tag' width={250} height={250} />
+        <p>No se encontraron cupones...</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -91,7 +106,7 @@ export const TableHistory = () => {
             <div key={coupon.CodigoQR} className='flex p-5 relative gap-5 sm:gap-8 md:gap-10 xl:gap-14 sm:ml-5 xl:ml-12 '>
               <div className='self-center basis-[10%]'>
                 <Image
-                  src={bretoLogo}
+                  src={emptyTag}
                   alt='icon-business'
                   className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
                 />

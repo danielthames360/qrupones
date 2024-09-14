@@ -5,25 +5,25 @@ import { useGlobalStore } from '@/store/store';
 import axios from 'axios';
 import { useCallback } from 'react';
 interface UseSessionInterface {
-  session: SessionInterface | undefined;
+  verificationCode: string | undefined;
+  hasHydrated: boolean;
   validateSession: (code?: string | null) => Promise<boolean>;
 }
 const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
 export const useSession = (): UseSessionInterface => {
-  const { session, setSession } = useGlobalStore((state) => state);
+  const { verificationCode, setVerificationCode, hasHydrated } = useGlobalStore((state) => state);
 
   const validateSession = useCallback(
     async (code?: string | null): Promise<boolean> => {
-      const storageCode = localStorage.getItem('code');
-      if (!code && !storageCode) return false;
+      if (!code) return false;
 
-      if (session) return true;
+      if (verificationCode) return true;
 
       try {
         const { data } = await axios.get<ApiResponseInterface<SessionInterface>>(
-          `${backendUrl}/coupons/validateCode/${code || storageCode}`,
+          `${backendUrl}/coupons/validateCode/${code}`,
           {
             headers: {
               Authorization: `Bearer ${backendKey}`,
@@ -32,25 +32,23 @@ export const useSession = (): UseSessionInterface => {
         );
 
         if (data.success && data.data) {
-          localStorage.setItem('code', data.data.Codigo);
-          setSession(data.data);
+          setVerificationCode(data.data.Codigo);
           return true;
         } else {
-          localStorage.removeItem('code');
-          setSession(undefined);
+          setVerificationCode(undefined);
           return false;
         }
       } catch (error: any) {
-        localStorage.removeItem('code');
-        setSession(undefined);
+        setVerificationCode(undefined);
         return false;
       }
     },
-    [session, setSession]
+    [setVerificationCode, verificationCode]
   );
 
   return {
-    session,
+    verificationCode,
     validateSession,
+    hasHydrated
   };
 };

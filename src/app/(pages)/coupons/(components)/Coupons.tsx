@@ -13,13 +13,12 @@ import { CouponCard } from './CouponCard';
 const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
-const fetchCoupons = async (number: string, countryCode: string): Promise<CouponsInterface[] | undefined> => {
+const fetchCoupons = async (code: string): Promise<CouponsInterface[] | undefined> => {
   try {
     const { data } = await axios.post<ApiResponseInterface<CouponsInterface[]>>(
       `${backendUrl}/coupons/getCoupons`,
       {
-        number: number, // Debe ser dinámico según el usuario
-        countryCode: countryCode, // Debe ser dinámico también
+        code,
       },
       {
         headers: {
@@ -40,21 +39,22 @@ const fetchCoupons = async (number: string, countryCode: string): Promise<Coupon
 };
 
 export const Coupons = () => {
-  const { session } = useGlobalStore((state) => state);
+  const { verificationCode, hasHydrated } = useGlobalStore((state) => state);
   const [coupons, setCoupons] = useState<CouponsInterface[] | undefined>(undefined);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!session) return router.push('/customers');
+    if (!hasHydrated) return;
+    if (!verificationCode) return router.push('/customers');
 
     const getCoupons = async () => {
-      const coupons = await fetchCoupons(session.Celular, session.CodigoPais);
+      const coupons = await fetchCoupons(verificationCode);
       setCoupons(coupons);
     };
 
     getCoupons();
-  }, [router, session]);
+  }, [hasHydrated, router, verificationCode]);
 
   return (
     <>
@@ -95,7 +95,7 @@ export const Coupons = () => {
           <Link
             className='button bg-gradient-to-r from-[#616161] to-[#272727] py-4 px-20 rounded-xl button-coupons'
             href='/history'
-            prefetch={false}>
+            prefetch={true}>
             Historial
           </Link>
         </div>
