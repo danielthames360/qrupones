@@ -43,7 +43,6 @@ export const Customers = () => {
         setCodeSent(true);
       } else {
         setShowErrorMessage(true);
-        console.log(data.message);
       }
     } catch (error: any) {
       setShowErrorMessage(true);

@@ -1,1 +1,1 @@
-export * from './animations/FadeIn'
+export * from './animations/FadeIn';

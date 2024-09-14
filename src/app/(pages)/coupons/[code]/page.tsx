@@ -1,31 +1,43 @@
-import { ApiResponseInterface } from '@/interfaces';
-import { SessionInterface } from '@/interfaces/SessionInterface';
-import axios from 'axios';
-import { redirect } from 'next/navigation';
-import { Coupons } from '../(components)/Coupons';
+'use client';
 
-const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
-const CouponPage = async ({ params }: { params: { code: string } }) => {
-  //Llamar a tu API para validar el código
-  try {
-    const { data } = await axios.get<ApiResponseInterface<SessionInterface>>(
-      `${backendUrl}/coupons/validateCode/${params.code}`,
-      {
-        headers: {
-          Authorization: `Bearer ${backendKey}`,
-        },
+import { useSession } from '@/hooks/useSession';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
+const CouponPage = ({ params }: { params: { code: string } }) => {
+  const { validateSession, session } = useSession();
+  const router = useRouter();
+  const [isSessionValid, setIsSessionValid] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const validate = async () => {
+      if (!session) {
+        const isValid = await validateSession(params.code);
+        setIsSessionValid(isValid);
+      } else {
+        setIsSessionValid(true);
       }
-    );
+    };
 
-    if (data.success) {
-      return <Coupons />;
-    } else {
-      redirect('/customers');
-    }
-  } catch (error: any) {
-    redirect('/customers');
+    validate();
+  }, [params.code, session, validateSession, router]);
+
+  if (isSessionValid === null) {
+    return (
+      <div className='flex flex-col items-center justify-center w-screen h-screen gap-20'>
+        <div className='sk-chase'>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+        </div>
+        <p className='font-semibold text-4xl'>Validando el código...</p>
+      </div>
+    );
   }
+  return isSessionValid ? router.push('/coupons') : router.push('/customers');
 };
 
 export default CouponPage;

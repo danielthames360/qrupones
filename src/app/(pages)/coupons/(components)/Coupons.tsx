@@ -1,10 +1,61 @@
 'use client';
 
 import { FadeIn } from '@/components';
-import { acaiLabLogo, bretoLogo, empacarLogo, fergusLogo, raphaellaLogo, rosarioLogo, sergiosLogo } from '../assets/images';
+import { ApiResponseInterface, CouponsInterface } from '@/interfaces';
+import { useGlobalStore } from '@/store/store';
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { bretoLogo } from '../assets/images';
 import { CouponCard } from './CouponCard';
 
+const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
+const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
+
+const fetchCoupons = async (number: string, countryCode: string): Promise<CouponsInterface[] | undefined> => {
+  try {
+    const { data } = await axios.post<ApiResponseInterface<CouponsInterface[]>>(
+      `${backendUrl}/coupons/getCoupons`,
+      {
+        number: number, // Debe ser dinámico según el usuario
+        countryCode: countryCode, // Debe ser dinámico también
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${backendKey}`,
+        },
+      }
+    );
+
+    if (data.success) {
+      return data.data;
+    } else {
+      throw new Error('No se pudieron obtener los cupones.');
+    }
+  } catch (error: any) {
+    console.error('Error al obtener los cupones:', error.message);
+    return [];
+  }
+};
+
 export const Coupons = () => {
+  const { session } = useGlobalStore((state) => state);
+  const [coupons, setCoupons] = useState<CouponsInterface[] | undefined>(undefined);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!session) return router.push('/customers');
+
+    const getCoupons = async () => {
+      const coupons = await fetchCoupons(session.Celular, session.CodigoPais);
+      setCoupons(coupons);
+    };
+
+    getCoupons();
+  }, [router, session]);
+
   return (
     <>
       <div className='h-[calc(100dvh)] max-h-[-webkit-fill-available] overflow-y-hidden w-11/12 lg:w-10/12 2xl:w-4/6 mx-auto relative'>
@@ -26,81 +77,27 @@ export const Coupons = () => {
         </div>
 
         <div className='max-h-[70%] md:max-h-[60%] flex flex-col items-center gap-10 overflow-y-auto overflow-x-hidden scroll pr-5 pb-8 md:flex-row md:justify-center md:flex-wrap'>
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={bretoLogo}
-              name={'Breto'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={fergusLogo}
-              name={'Fergus'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={rosarioLogo}
-              name={'Rosario'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={raphaellaLogo}
-              name={'RaphaellaBooz'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={acaiLabLogo}
-              name={'AcaiLab'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={sergiosLogo}
-              name={'Sergios'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
-
-          <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]'>
-            <CouponCard
-              img={empacarLogo}
-              name={'Empacar'}
-              description={'Raphaella Booz BLACK FRIDAY HASTA 70% - 40% en el sector 20% y 30% y 55% en el sector 50%'}
-              date='Valido hasta el 31 de Octubre 2024'
-              button='Mostrar QR'
-            />
-          </FadeIn>
+          {coupons &&
+            coupons.map((coupon, index) => (
+              <FadeIn as='div' delay={500} origin={'left'} className='md:w-[48%]' key={index}>
+                <CouponCard
+                  img={bretoLogo}
+                  name={coupon.Nombre}
+                  description={coupon.MensajeCanje}
+                  date={`Válido hasta el ${new Date(coupon.FechaExpiracion).toLocaleDateString()}`}
+                  button='Mostrar QR'
+                />
+              </FadeIn>
+            ))}
         </div>
 
         <div className='h-[15%] md:h-[20%] flex flex-col justify-center items-center text-center z-10 overflow-hidden'>
-          <button className='button bg-gradient-to-r from-[#616161] to-[#272727] py-4 px-20 rounded-xl button-coupons'>
-            Historial de canjes
-          </button>
+          <Link
+            className='button bg-gradient-to-r from-[#616161] to-[#272727] py-4 px-20 rounded-xl button-coupons'
+            href='/history'
+            prefetch={false}>
+            Historial
+          </Link>
         </div>
       </div>
     </>
