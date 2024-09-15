@@ -1,0 +1,167 @@
+@use '../base/variables' as *;
+@use '../base/mixins' as m;
+
+.navigation {
+  &__button {
+    background-color: $white;
+    height: 7rem;
+    width: 7rem;
+    position: fixed;
+    top: 1.8rem;
+    right: 1.5rem;
+    border-radius: 50%;
+    z-index: 2000;
+    // box-shadow: 0 1rem 3rem rgba($black, 0.28);
+    text-align: center;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    @include m.tablet {
+      top: 4rem;
+      right: 3rem;
+    }
+    @include m.desktop {
+      right: 10%;
+    }
+    @include m.large {
+      right: 17%;
+    }
+  }
+
+  &__background {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 1.9rem;
+    right: 2rem;
+    background-image: radial-gradient($purpleQR, $blueText);
+    z-index: 1000;
+    transition: transform 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+    // transform: scale(80);
+
+    @include m.tablet {
+      top: 4.2rem;
+      right: 3.5rem;
+    }
+
+    @include m.desktop {
+      right: 10.5%;
+    }
+    @include m.large {
+      right: 33.5rem;
+    }
+    @include m.extraLarge {
+      right: 17.3%;
+    }
+  }
+
+  &__nav {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 1500;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+
+    opacity: 0;
+    width: 0;
+    transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  &__list {
+    width: 100%;
+    list-style: none;
+    text-align: center;
+  }
+
+  &__item {
+    margin: 1rem;
+  }
+
+  &__link {
+    &:link,
+    &:visited {
+      display: inline-block;
+      font-size: 3rem;
+      font-weight: 350;
+      padding: 1rem 2rem;
+      color: $white;
+      text-decoration: none;
+      text-transform: uppercase;
+      background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $white 50%);
+      background-size: 225%;
+      transition: all 0.1s;
+
+      span {
+        margin-right: 1rem;
+        display: inline-block;
+      }
+    }
+
+    &:hover,
+    &:active {
+      background-position: 100%;
+      color: $purpleQR;
+      transform: translateX(1rem);
+    }
+  }
+  //functionality
+
+  .nav-open {
+    opacity: 1;
+    width: 100vw;
+  }
+  .background-open {
+    transform: scale(80);
+  }
+
+  //icon
+  &__icon {
+    position: relative;
+    margin-top: 3.5rem;
+    padding: 0.1rem 1rem;
+    background: $textBtn;
+    margin: 0.2rem 0rem;
+    display: block;
+    width: 1rem;
+    transition: all 0.5s ease;
+
+    @include m.tablet {
+      padding: 0.17rem 1.6rem;
+    }
+  }
+
+  .toggle &__icon-1 {
+    transform: rotateZ(45deg) translateY(300%);
+    background: $black;
+    margin-left: 1.5rem;
+  }
+  .toggle &__icon-2 {
+    opacity: 0;
+  }
+  .toggle &__icon-3 {
+    transform: rotateZ(-45deg) translateY(-300%);
+    background: $black;
+    margin-left: 1.5rem;
+  }
+}
+
+.font-montserrat {
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 350;
+  font-family: inherit;
+  color: $white;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.1s;
+}

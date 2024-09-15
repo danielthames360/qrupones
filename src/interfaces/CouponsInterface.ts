@@ -3,4 +3,6 @@ export interface CouponsInterface {
   FechaExpiracion: Date;
   MensajeCanje: string;
   Nombre: string;
+  LogoUrl: string;
+  Categoria: string;
 }

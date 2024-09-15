@@ -2,11 +2,9 @@
 
 import { emptyTag } from '@/app/(landingResources)/assets/images';
 import { ApiResponseInterface, CouponsHistoryInterface } from '@/interfaces';
-import { useGlobalStore } from '@/store/store';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
@@ -37,26 +35,27 @@ const fetchCoupons = async (code: string): Promise<CouponsHistoryInterface[] | u
   }
 };
 export const TableHistory = () => {
-  const { verificationCode, hasHydrated } = useGlobalStore((state) => state);
-
+  const { data: session } = useSession();
   const [coupons, setCoupons] = useState<CouponsHistoryInterface[]>([]);
   const [filteredCoupons, setFilteredCoupons] = useState<CouponsHistoryInterface[]>([]);
   const [filter, setFilter] = useState<string>('Todos');
-
-  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!hasHydrated) return;
-    if (!verificationCode) return router.push('/customers');
     const loadCoupons = async () => {
-      const data = await fetchCoupons(verificationCode);
+      if (!session || !session.user.name) {
+        return null;
+      }
+      setIsLoading(true);
+      const data = await fetchCoupons(session.user.name);
+      setIsLoading(false);
       if (data) {
         setCoupons(data);
       }
     };
 
     loadCoupons();
-  }, [hasHydrated, router, verificationCode]);
+  }, [session]);
 
   useEffect(() => {
     let filtered = coupons;
@@ -66,22 +65,37 @@ export const TableHistory = () => {
     } else if (filter === 'Expirados') {
       filtered = coupons.filter((coupon) => !coupon.FechaUso);
     }
-
     setFilteredCoupons(filtered);
   }, [filter, coupons]);
+
+  if (isLoading) {
+    return (
+      <div className='flex flex-col items-center justify-center mt-[30%] gap-10'>
+        <div className='sk-chase'>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+          <div className='sk-chase-dot'></div>
+        </div>
+        <p className='font-semibold text-4xl'>Obteniendo Historial...</p>
+      </div>
+    );
+  }
 
   if (coupons.length === 0) {
     return (
       <div className='flex justify-center items-center mt-16 flex-col'>
         <Image src={emptyTag} alt='Empty tag' width={250} height={250} />
-        <p>No se encontraron cupones...</p>
+        <p>No se encontraron QRupones...</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className='flex gap-2 justify-center mt-3'>
+      <div className='flex gap-2 justify-center mt-4'>
         <button onClick={() => setFilter('Todos')} className='category bg-transparent'>
           <span className={`${filter === 'Todos' ? 'category-select' : ''}`}>Todos</span>
         </button>
@@ -92,22 +106,17 @@ export const TableHistory = () => {
           | <span className={`${filter === 'Expirados' ? 'category-select' : ''}`}>Expirados</span>
         </button>
       </div>
-      <div className='flex justify-center mt-3'>
-        <Link
-          href={'/coupons'}
-          className='button bg-gradient-to-r from-[#616161] to-[#272727] py-4 px-5 rounded-xl button-coupons text-[1.6rem]'>
-          Volver
-        </Link>
-      </div>
 
-      <div className='mx-auto divide-y divide-[#e9e9e9] border-[2px] border-[#a3a3a930] shadow-md flex flex-col rounded-xl my-[3rem]'>
+      <div className='max-h-[75%] mx-auto divide-y divide-[#e9e9e9] border-[2px] border-[#a3a3a930] shadow-md flex flex-col rounded-xl my-[4rem] overflow-y-auto overflow-x-hidden scroll'>
         {filteredCoupons &&
           filteredCoupons.map((coupon) => (
             <div key={coupon.CodigoQR} className='flex p-5 relative gap-5 sm:gap-8 md:gap-10 xl:gap-14 sm:ml-5 xl:ml-12 '>
               <div className='self-center basis-[10%]'>
                 <Image
-                  src={emptyTag}
+                  src={coupon.LogoUrl}
                   alt='icon-business'
+                  width={160}
+                  height={160}
                   className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
                 />
               </div>

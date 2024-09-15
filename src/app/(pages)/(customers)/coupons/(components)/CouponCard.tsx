@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from 'next/image';
 
 interface CouponCardProps {
-  img: StaticImageData;
+  img: string | StaticImageData;
   name: string;
   description: string;
   date: string;
@@ -14,6 +14,8 @@ export const CouponCard = ({ img, name, description, date, button }: CouponCardP
       <Image
         src={img}
         alt='icon-business'
+        width={112}
+        height={112}
         className='max-w-[7rem] self-center h-auto sm:max-w-[10rem] md:max-w-[8rem] xl:max-w-[10rem]'
       />
 

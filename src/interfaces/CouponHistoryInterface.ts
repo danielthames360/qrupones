@@ -11,4 +11,6 @@ export interface CouponsHistoryInterface {
   MontoQrupon: number | null;
   FechaUso: Date | null;
   Moneda: string;
+  LogoUrl: string;
+  Categoria: string;
 }

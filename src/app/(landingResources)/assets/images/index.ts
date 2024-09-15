@@ -4,6 +4,7 @@ export { default as og } from '/public/images/landing/og.png';
 // Hero
 export { default as bg } from '/public/images/landing/bg.png';
 export { default as logoHeader } from '/public/images/landing/logo-header.png';
+export { default as logoDarkHeader } from '/public/images/landing/logoDark-header.png';
 export { default as phoneDesk } from '/public/images/landing/phone-desk.png';
 export { default as phoneMob } from '/public/images/landing/phone-mob.png';
 export { default as phoneTablet } from '/public/images/landing/phone-tablet.png';
@@ -51,3 +52,8 @@ export { default as tinyChevronUp } from '/public/images/landing/icons/tinyChevr
 
 //Coupons
 export { default as emptyTag } from '/public/images/coupons/emptyTag.png';
+export { default as logoQR } from '/public/images/landing/qr-logo.svg';
+
+// Shared
+export { default as logout } from '/public/images/logout.png';
+
