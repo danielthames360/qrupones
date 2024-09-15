@@ -47,7 +47,7 @@ export const Hero = () => {
             </FadeIn>
 
             <FadeIn as={'div'} duration={3000} delay={1400} className='w-full lg:text-left'>
-              <button className='content__info-btn' onClick={startWhatsAppChat}>
+              <button className='content__info-btn button' onClick={startWhatsAppChat}>
                 Quiero empezar
               </button>
             </FadeIn>

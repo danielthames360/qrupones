@@ -2,7 +2,6 @@
 
 import {
   acaiLabLogo,
-  bretoLogo,
   circleFigure,
   empacarLogo,
   fergusLogo,
@@ -11,9 +10,9 @@ import {
   plusSmallFigure,
   raphaellaLogo,
   rollFigure,
+  rosarioLogo,
   sergiosLogo,
   starFigure,
-  rosarioLogo,
 } from '@/app/(landingResources)/assets/images';
 import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
@@ -89,8 +88,7 @@ export const Clients = () => {
           </FadeIn>
 
           <div className='clients__grid'>
-
-          <div className='clients__grid-box'>
+            <div className='clients__grid-box'>
               <FadeIn duration={500} delay={100} as='img' src={sergiosLogo} alt='Sergios Logo' />
             </div>
 
@@ -101,7 +99,7 @@ export const Clients = () => {
             <div className='clients__grid-box'>
               <FadeIn duration={500} delay={100} as='img' src={raphaellaLogo} alt='Raphaella Booz Logo' />
             </div>
-            
+
             <div className='clients__grid-box'>
               <FadeIn duration={500} delay={100} as='img' src={empacarLogo} alt='Empacar Express Logo' />
             </div>

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Montserrat } from 'next/font/google';
 import './styles/style.scss';
 
@@ -51,6 +51,13 @@ export const metadata: Metadata = {
     creator: '@danielthames',
     images: ['https://qrupones.com/_next/static/media/og.61ac9a66.png'],
   },
+};
+
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+  maximumScale: 1,
+  initialScale: 1,
+  width: 'device-width',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

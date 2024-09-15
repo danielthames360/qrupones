@@ -12,7 +12,7 @@ export const Footer = () => {
         <div className='footer__container contain'>
           <Image className='footer__container-logo' src={logoFooter} alt='logo' />
 
-          <button className='footer__container-btn' onClick={startWhatsAppChat}>
+          <button className='footer__container-btn button' onClick={startWhatsAppChat}>
             Contáctanos
           </button>
 

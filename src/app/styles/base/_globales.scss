@@ -1,10 +1,19 @@
 @use 'variables' as *;
 @use '../base/mixins' as m;
 
-* {
-  box-sizing: border-box;
+*,
+::before,
+::after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box; /* 1 */
+  border-width: 0; /* 2 */
+  border-style: solid; /* 2 */
+}
+
+::before,
+::after {
+  --tw-content: '';
 }
 
 html {
@@ -24,7 +33,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  min-height: 100vh;
+  // min-height: 100vh;
   font-family: $font-family;
   overflow-x: hidden;
 }
@@ -77,26 +86,6 @@ a {
   text-decoration: none;
 }
 
-button {
-  flex-shrink: 0;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 1.5rem;
-  font-style: normal;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  text-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
-
-  @include m.tablet {
-    font-size: 1.8rem;
-  }
-
-  @include m.desktop {
-    font-size: 2rem;
-  }
-}
-
 .button {
   flex-shrink: 0;
   border-radius: 50px;
@@ -108,11 +97,184 @@ button {
   cursor: pointer;
   text-shadow: 0px 7px 6px rgba(0, 0, 0, 0.25);
 
+  &:hover {
+    filter: drop-shadow(0 0 1em #a77fb6);
+    transition: 0.3s;
+  }
+
   @include m.tablet {
     font-size: 1.8rem;
   }
 
   @include m.desktop {
     font-size: 2rem;
+  }
+}
+
+.inputPhone {
+  width: 200px !important;
+
+  @include m.tablet {
+    width: 250px !important;
+  }
+}
+
+.button-page {
+  background-color: #a77fb6;
+  color: white;
+  padding: 1.25rem 10rem;
+  font-size: 1.6rem;
+  box-shadow: 0px 2px 6px 0px rgba(255, 255, 255, 0.05);
+}
+
+.button-coupons {
+  box-shadow: 0px 2px 6px 0px #616161;
+  color: white;
+
+  &:hover {
+    filter: drop-shadow(0 0 1em #27272784);
+    transition: 0.3s;
+  }
+}
+
+.coupon {
+  position: relative;
+  background-color: #f3f3f3;
+  padding: 1.25rem 2.5rem;
+  // box-shadow: 10px 10px 20px 1px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 19px 9px -11px rgba(0, 0, 0, 0.3);
+  &::after {
+    @include m.couponCard;
+  }
+
+  &::before {
+    @include m.couponCard;
+    left: -25px;
+  }
+}
+
+.scroll {
+  z-index: 10;
+  &::-webkit-scrollbar {
+    background: #ececec; /* color of the tracking area */
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+  }
+}
+
+.category {
+  color: black;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24.64px;
+
+  & span {
+    cursor: pointer;
+  }
+
+  &-select {
+    font-weight: bold;
+  }
+
+  @include m.tablet {
+    line-height: 27.72px;
+    font-size: 1.8rem;
+  }
+
+  @include m.desktop {
+    line-height: 30.8px;
+    font-size: 2rem;
+  }
+}
+
+.sk-chase {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  animation: sk-chase 2.5s infinite linear both;
+}
+
+.sk-chase-dot {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: sk-chase-dot 2s infinite ease-in-out both;
+}
+
+.sk-chase-dot:before {
+  content: '';
+  display: block;
+  width: 25%;
+  height: 25%;
+  background-color: #a780b7;
+  border-radius: 100%;
+  animation: sk-chase-dot-before 2s infinite ease-in-out both;
+}
+
+.sk-chase-dot:nth-child(1) {
+  animation-delay: -1.1s;
+}
+.sk-chase-dot:nth-child(2) {
+  animation-delay: -1s;
+}
+.sk-chase-dot:nth-child(3) {
+  animation-delay: -0.9s;
+}
+.sk-chase-dot:nth-child(4) {
+  animation-delay: -0.8s;
+}
+.sk-chase-dot:nth-child(5) {
+  animation-delay: -0.7s;
+}
+.sk-chase-dot:nth-child(6) {
+  animation-delay: -0.6s;
+}
+.sk-chase-dot:nth-child(1):before {
+  animation-delay: -1.1s;
+}
+.sk-chase-dot:nth-child(2):before {
+  animation-delay: -1s;
+}
+.sk-chase-dot:nth-child(3):before {
+  animation-delay: -0.9s;
+}
+.sk-chase-dot:nth-child(4):before {
+  animation-delay: -0.8s;
+}
+.sk-chase-dot:nth-child(5):before {
+  animation-delay: -0.7s;
+}
+.sk-chase-dot:nth-child(6):before {
+  animation-delay: -0.6s;
+}
+
+@keyframes sk-chase {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk-chase-dot {
+  80%,
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes sk-chase-dot-before {
+  50% {
+    transform: scale(0.4);
+  }
+  100%,
+  0% {
+    transform: scale(1);
   }
 }

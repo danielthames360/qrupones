@@ -34,9 +34,10 @@ export const Questions = () => {
             <FadeIn as='div' delay={600} origin={'bottom'}>
               <Collapse title={'¿Cómo se beneficia mi negocio con QRupones?'}>
                 <p>
-                  <b>✅Base de datos</b>: al preguntar solamente el nombre y número de celular de tu cliente, QRupones crea una base de
-                  datos de tu negocio ayudando a comprender a tus consumidores, reduciendo el costo de mercadeo, comunicaciones y
-                  desarrollando una ventaja competitiva para personalizar la experiencia que brindas a tus clientes.
+                  <b>✅Base de datos</b>: al preguntar solamente el nombre y número de celular de tu cliente, QRupones crea una
+                  base de datos de tu negocio ayudando a comprender a tus consumidores, reduciendo el costo de mercadeo,
+                  comunicaciones y desarrollando una ventaja competitiva para personalizar la experiencia que brindas a tus
+                  clientes.
                   <br />
                   <b>✅Creación de campañas específicas:</b> Logrando segmentar tu público en función de sus intereses, historial
                   de compras u otros factores relevantes, puedes adaptar tus campañas de QRupones a grupos de clientes
@@ -61,7 +62,8 @@ export const Questions = () => {
               <Collapse title={'¿Como puedo supervisar mi negocio con QRupones?'}>
                 <p>
                   Tu negocio está bajo control con QRupones. Contamos con un Dashboard en tiempo real donde logras ver tus ventas
-                  y recompras con Qrupones, supervisar la eficiencia de tus sucursales y conocer otros indicadores que te ayudarán a tomar mejores decisiones.
+                  y recompras con Qrupones, supervisar la eficiencia de tus sucursales y conocer otros indicadores que te ayudarán
+                  a tomar mejores decisiones.
                 </p>
               </Collapse>
             </FadeIn>
