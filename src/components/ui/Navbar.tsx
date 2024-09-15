@@ -1,12 +1,19 @@
 'use client';
 import { logout } from '@/app/(landingResources)/assets/images';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
 export const Navbar = () => {
+  const { data: session } = useSession();
+
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  if (!session) {
+    return null;
+  }
+
   return (
     <>
       <div className='navigation'>
