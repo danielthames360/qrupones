@@ -53,6 +53,7 @@ export { default as tinyChevronUp } from '/public/images/landing/icons/tinyChevr
 //Coupons
 export { default as emptyTag } from '/public/images/coupons/emptyTag.png';
 export { default as logoQR } from '/public/images/landing/qr-logo.svg';
+export { default as noLogo } from '/public/images/coupons/noLogo.png';
 
 // Shared
 export { default as logout } from '/public/images/logout.png';

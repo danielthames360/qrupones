@@ -1,6 +1,6 @@
 'use client';
 
-import { emptyTag } from '@/app/(landingResources)/assets/images';
+import { emptyTag, noLogo } from '@/app/(landingResources)/assets/images';
 import { ApiResponseInterface, CouponsHistoryInterface } from '@/interfaces';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -112,13 +112,23 @@ export const TableHistory = () => {
           filteredCoupons.map((coupon) => (
             <div key={coupon.CodigoQR} className='flex p-5 relative gap-5 sm:gap-8 md:gap-10 xl:gap-14 sm:ml-5 xl:ml-12 '>
               <div className='self-center basis-[10%]'>
-                <Image
-                  src={coupon.LogoUrl}
-                  alt='icon-business'
-                  width={160}
-                  height={160}
-                  className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
-                />
+                {coupon.LogoUrl ? (
+                  <Image
+                    src={coupon.LogoUrl}
+                    alt='icon-business'
+                    width={160}
+                    height={160}
+                    className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
+                  />
+                ) : (
+                  <Image
+                    src={noLogo}
+                    alt='no-logo'
+                    width={160}
+                    height={160}
+                    className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
+                  />
+                )}
               </div>
               <div className='self-center basis-[50%] md:basis-[55%] xl:basis-[50%] flex flex-col gap-2 2xl:gap-4'>
                 <h3 className='text-[1.3rem] sm:text-[1.7rem] lg:text-[1.8rem] 2xl:text-[2rem] font-bold text-start'>
