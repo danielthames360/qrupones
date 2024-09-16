@@ -88,7 +88,7 @@ export const TableHistory = () => {
     return (
       <div className='flex justify-center items-center mt-16 flex-col'>
         <Image src={emptyTag} alt='Empty tag' width={250} height={250} />
-        <p>No se encontraron QRupones...</p>
+        <p>Sin movimientos...</p>
       </div>
     );
   }
@@ -108,7 +108,7 @@ export const TableHistory = () => {
       </div>
 
       <div className='max-h-[75%] mx-auto divide-y divide-[#e9e9e9] border-[2px] border-[#a3a3a930] shadow-md flex flex-col rounded-xl my-[4rem] overflow-y-auto overflow-x-hidden scroll'>
-        {filteredCoupons &&
+        {filteredCoupons ? (
           filteredCoupons.map((coupon) => (
             <div key={coupon.CodigoQR} className='flex p-5 relative gap-5 sm:gap-8 md:gap-10 xl:gap-14 sm:ml-5 xl:ml-12 '>
               <div className='self-center basis-[10%]'>
@@ -147,11 +147,11 @@ export const TableHistory = () => {
                   </span>
                   <span className='text-[1rem] sm:text-[1.2rem] 2xl:text-[1.5rem] font-light'>Por el monto de:</span>
                   <span className='text-[1rem] sm:text-[1.2rem] 2xl:text-[1.5rem] text-white bg-[#a780b7] rounded-full px-2 py-1 w-max xl:px-5 xl:py-3 self-center'>
-                    {coupon.Moneda}. {coupon.MontoOrigen}
+                    Bs. {coupon.Moneda === 'USD' ? coupon.MontoOrigen * 6.96 : coupon.MontoOrigen}
                   </span>
                 </div>
 
-                {coupon.FechaUso ? (
+                {coupon.FechaUso && coupon.MontoQrupon ? (
                   <div className='flex flex-col gap-2 xl:gap-5 pl-[1rem]'>
                     <span className='text-[1rem] sm:text-[1.2rem] 2xl:text-[1.5rem] font-light'>
                       Fecha <br className='2xl:hidden' />
@@ -162,7 +162,7 @@ export const TableHistory = () => {
                     </span>
                     <span className='text-[1rem] sm:text-[1.2rem] 2xl:text-[1.5rem] font-light'>Monto con QRupon:</span>
                     <span className='text-[1rem] sm:text-[1.1rem] 2xl:text-[1.5rem] text-white bg-[#a7cf3a] rounded-full px-2 py-1 w-max xl:px-5 xl:py-3 self-center'>
-                      Bs. {coupon.MontoQrupon}
+                      Bs. {coupon.Moneda === 'USD' ? coupon.MontoQrupon * 6.96 : coupon.MontoQrupon}
                     </span>
                   </div>
                 ) : (
@@ -176,7 +176,13 @@ export const TableHistory = () => {
                 )}
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className='flex flex-col items-center'>
+            <Image src={emptyTag} alt='Empty tag' width={100} height={100} className='mt-20' />
+            <p>Sin movimientos...</p>
+          </div>
+        )}
       </div>
     </>
   );
