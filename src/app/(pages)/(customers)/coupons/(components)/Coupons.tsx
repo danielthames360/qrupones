@@ -112,13 +112,7 @@ export const Coupons = () => {
           {filteredCoupons.length > 0 ? (
             filteredCoupons.map((coupon, index) => (
               <div className='md:w-[48%]' key={index}>
-                <CouponCard
-                  img={coupon.LogoUrl}
-                  name={coupon.Nombre}
-                  description={coupon.MensajeCanje}
-                  date={`Válido hasta el ${new Date(coupon.FechaExpiracion).toLocaleDateString()}`}
-                  button='Mostrar QR'
-                />
+                <CouponCard coupon={coupon} />
               </div>
             ))
           ) : (
