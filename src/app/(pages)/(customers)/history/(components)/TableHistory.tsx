@@ -108,7 +108,7 @@ export const TableHistory = () => {
       </div>
 
       <div className='max-h-[75%] mx-auto divide-y divide-[#e9e9e9] border-[2px] border-[#a3a3a930] shadow-md flex flex-col rounded-xl my-[4rem] overflow-y-auto overflow-x-hidden scroll'>
-        {filteredCoupons ? (
+        {filteredCoupons.length > 0 ? (
           filteredCoupons.map((coupon) => (
             <div key={coupon.CodigoQR} className='flex p-5 relative gap-5 sm:gap-8 md:gap-10 xl:gap-14 sm:ml-5 xl:ml-12 '>
               <div className='self-center basis-[10%]'>
