@@ -121,13 +121,7 @@ export const TableHistory = () => {
                     className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
                   />
                 ) : (
-                  <Image
-                    src={noLogo}
-                    alt='no-logo'
-                    width={160}
-                    height={160}
-                    className='h-auto max-w-[5rem] sm:max-w-[8rem] md:max-w-[9rem] lg:max-w-[10rem]'
-                  />
+                  <Image src={noLogo} alt='no-logo' width={120} height={120} className='h-auto max-w-[5rem] sm:max-w-[8rem] ' />
                 )}
               </div>
               <div className='self-center basis-[50%] md:basis-[55%] xl:basis-[50%] flex flex-col gap-2 2xl:gap-4'>
@@ -188,7 +182,7 @@ export const TableHistory = () => {
             </div>
           ))
         ) : (
-          <div className='flex flex-col items-center'>
+          <div className='flex flex-col items-center mb-16'>
             <Image src={emptyTag} alt='Empty tag' width={100} height={100} className='mt-20' />
             <p>Sin movimientos...</p>
           </div>
