@@ -1,7 +1,5 @@
 import isEmpty from 'validator/lib/isEmpty';
-import isMobilePhone, {
-  type MobilePhoneLocale
-} from 'validator/lib/isMobilePhone';
+import isMobilePhone, { type MobilePhoneLocale } from 'validator/lib/isMobilePhone';
 
 export const validateNoSpaces = (value: string): boolean | string => {
   if (typeof value !== 'string') return true;
@@ -19,10 +17,7 @@ export const validateNoSpacesWithMiddle = (value: string): boolean | string => {
   return true;
 };
 
-export const validatePhoneNumber = (
-  value: string,
-  localeCode: string
-): boolean | string => {
+export const validatePhoneNumber = (value: string, localeCode: string): boolean | string => {
   try {
     if (!isMobilePhone(value, localeCode as MobilePhoneLocale)) {
       return 'No es un número válido';
@@ -33,12 +28,8 @@ export const validatePhoneNumber = (
   }
 };
 
-export const validateOptionalPhoneNumber = (
-  value: string,
-  localeCode: string = 'es-BO'
-): boolean | string => {
+export const validateOptionalPhoneNumber = (value: string, localeCode: string = 'es-BO'): boolean | string => {
   if (value.length === 0) return true;
-  if (typeof validateNoSpaces(value) === 'string')
-    return validateNoSpaces(value);
+  if (typeof validateNoSpaces(value) === 'string') return validateNoSpaces(value);
   return validatePhoneNumber(value, localeCode);
 };

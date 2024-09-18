@@ -27,7 +27,9 @@ export { default as rollFigure } from '/public/images/landing/figure-roll.svg';
 export { default as starFigure } from '/public/images/landing/figure-star.svg';
 
 export { default as acaiLabLogo } from '/public/images/landing/client-acaiLab.png';
+export { default as boliviaFitnessLogo } from '/public/images/landing/client-boliviaFitness.png';
 export { default as bretoLogo } from '/public/images/landing/client-breto.jpg';
+export { default as complementoLogo } from '/public/images/landing/client-complemento.png';
 export { default as empacarLogo } from '/public/images/landing/client-empacar.png';
 export { default as fergusLogo } from '/public/images/landing/client-fergus.png';
 export { default as raphaellaLogo } from '/public/images/landing/client-raphaellaBooz.png';
@@ -49,12 +51,10 @@ export { default as logoFooter } from '/public/images/landing/logo-footer.png';
 export { default as chevronUp } from '/public/images/landing/icons/chevronUp.png';
 export { default as tinyChevronUp } from '/public/images/landing/icons/tinyChevronUp.png';
 
-
 //Coupons
 export { default as emptyTag } from '/public/images/coupons/emptyTag.png';
-export { default as logoQR } from '/public/images/landing/qr-logo.svg';
 export { default as noLogo } from '/public/images/coupons/noLogo.png';
+export { default as logoQR } from '/public/images/landing/qr-logo.svg';
 
 // Shared
 export { default as logout } from '/public/images/logout.png';
-

@@ -1,14 +1,38 @@
 'use client';
 import { logout } from '@/app/(landingResources)/assets/images';
+import { endpoints } from '@/constants/endpoints';
+import { ApiResponseInterface } from '@/interfaces';
+import axios from 'axios';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
+const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
+
 export const Navbar = () => {
   const { data: session } = useSession();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const handleLogout = async () => {
+    if (session) {
+      try {
+        const { data } = await axios.delete<ApiResponseInterface>(`${endpoints.auth.logout}${session!.user.name}`, {
+          headers: {
+            Authorization: `Bearer ${backendKey}`,
+          },
+        });
+
+        await signOut();
+      } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+      }
+    } else {
+      // Si no hay sesión, simplemente llama a signOut
+      await signOut();
+    }
+  };
 
   if (!session) {
     return null;
@@ -43,7 +67,7 @@ export const Navbar = () => {
           </ul>
           <button
             className='cursor-pointer bg-transparent font-montserrat  hover:scale-105 flex gap-3 items-center'
-            onClick={() => signOut()}>
+            onClick={handleLogout}>
             <Image src={logout} alt='logout' width={25} height={25} />
             Cerrar sesión
           </button>

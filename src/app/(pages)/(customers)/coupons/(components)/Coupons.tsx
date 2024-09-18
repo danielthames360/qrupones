@@ -118,7 +118,7 @@ export const Coupons = () => {
           ) : (
             <div className='flex flex-col items-center'>
               <Image src={emptyTag} alt='Empty tag' width={100} height={100} className='mt-20' />
-              <p>No tienes QRupones disponibles...</p>
+              <p>No tienes QRupones vigentes...</p>
             </div>
           )}
         </div>

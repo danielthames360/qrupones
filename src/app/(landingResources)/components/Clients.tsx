@@ -2,8 +2,10 @@
 
 import {
   acaiLabLogo,
+  boliviaFitnessLogo,
+  bretoLogo,
   circleFigure,
-  empacarLogo,
+  complementoLogo,
   fergusLogo,
   lineFigure,
   plusFigure,
@@ -18,7 +20,31 @@ import { FadeIn } from '@/components';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
+import { Autoplay, Pagination, Thumbs } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 export const Clients = () => {
+  const logos = [
+    { src: rosarioLogo, alt: 'Rosario Logo' },
+    { src: raphaellaLogo, alt: 'Raphaella Booz Logo' },
+    { src: fergusLogo, alt: 'Fergus Logo' },
+    { src: sergiosLogo, alt: 'Sergios Logo' },
+    { src: bretoLogo, alt: 'Breto Logo' },
+    { src: acaiLabLogo, alt: 'Acai Lab Logo' },
+    { src: boliviaFitnessLogo, alt: 'Bolivia Fitness Logo' },
+    { src: complementoLogo, alt: 'Complemento Logo' },
+  ];
+
+  const slideSize = 6; // Cantidad de imágenes por slide
+
+  const slideLogos = [];
+  for (let i = 0; i < logos.length; i += slideSize) {
+    slideLogos.push(logos.slice(i, i + slideSize));
+  }
+
   return (
     <>
       <div className='clients'>
@@ -84,34 +110,32 @@ export const Clients = () => {
 
         <div className='clients__container contain'>
           <FadeIn as='h2' origin={'bottom'} className='clients__title'>
-            Algunos de Nuestros Clientes
+            Nuestros Clientes
           </FadeIn>
 
-          <div className='clients__grid'>
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={sergiosLogo} alt='Sergios Logo' />
-            </div>
-
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={fergusLogo} alt='Fergus Logo' />
-            </div>
-
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={raphaellaLogo} alt='Raphaella Booz Logo' />
-            </div>
-
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={empacarLogo} alt='Empacar Express Logo' />
-            </div>
-
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={rosarioLogo} alt='Rosario Logo' />
-            </div>
-
-            <div className='clients__grid-box'>
-              <FadeIn duration={500} delay={100} as='img' src={acaiLabLogo} alt='Acai Lab Logo' />
-            </div>
-          </div>
+          <Swiper
+            spaceBetween={10}
+            slidesPerView={1}
+            autoplay
+            loop
+            modules={[Autoplay, Pagination, Thumbs]}
+            pagination={{ clickable: true }}
+            breakpoints={{
+              768: { slidesPerView: 1 },
+              1024: { slidesPerView: 1 },
+            }}>
+            {slideLogos.map((logoSlide, index) => (
+              <SwiperSlide key={index}>
+                <div className='clients__grid'>
+                  {logoSlide.map((logo, index) => (
+                    <div key={index} className='clients__grid-box'>
+                      <FadeIn duration={500} delay={100} as='img' src={logo.src} alt={logo.alt} />
+                    </div>
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </>

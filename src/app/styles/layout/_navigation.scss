@@ -128,16 +128,12 @@
   &__icon {
     position: relative;
     margin-top: 3.5rem;
-    padding: 0.1rem 1rem;
+    padding: 0.17rem 1.6rem;
     background: $textBtn;
     margin: 0.2rem 0rem;
     display: block;
     width: 1rem;
     transition: all 0.5s ease;
-
-    @include m.tablet {
-      padding: 0.17rem 1.6rem;
-    }
   }
 
   .toggle &__icon-1 {
