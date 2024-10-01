@@ -16,7 +16,7 @@ export const Questions = () => {
             </FadeIn>
 
             <FadeIn as='p' delay={500} origin={'bottom'}>
-              Si tienes dudas acerca de si Qrupones es la opción adecuada para ti, no te preocupes. Estamos a tu disposición para
+              Si tienes dudas acerca de si QRupones es la opción adecuada para ti, no te preocupes. Estamos a tu disposición para
               proporcionarte toda la información que necesites y responder a todas tus preguntas.
             </FadeIn>
           </div>
@@ -43,7 +43,7 @@ export const Questions = () => {
                   de compras u otros factores relevantes, puedes adaptar tus campañas de QRupones a grupos de clientes
                   específicos.
                   <br />
-                  <b>✅Toma de decisiones:</b> Al momento de tomar desiciones, los datos recoletados de Qrupones ayudan a que tu
+                  <b>✅Toma de decisiones:</b> Al momento de tomar desiciones, los datos recoletados de QRupones ayudan a que tu
                   negocio este informado sobre dónde asignar su presupuesto, el historial de compras y qué recursos de marketing
                   necesitan para crear campañas exitosas.
                   <br />
@@ -62,7 +62,7 @@ export const Questions = () => {
               <Collapse title={'¿Como puedo supervisar mi negocio con QRupones?'}>
                 <p>
                   Tu negocio está bajo control con QRupones. Contamos con un Dashboard en tiempo real donde logras ver tus ventas
-                  y recompras con Qrupones, supervisar la eficiencia de tus sucursales y conocer otros indicadores que te ayudarán
+                  y recompras con QRupones, supervisar la eficiencia de tus sucursales y conocer otros indicadores que te ayudarán
                   a tomar mejores decisiones.
                 </p>
               </Collapse>

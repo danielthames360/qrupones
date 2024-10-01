@@ -84,7 +84,7 @@ export const Coupons = () => {
           <div className='sk-chase-dot'></div>
           <div className='sk-chase-dot'></div>
         </div>
-        <p className='font-semibold text-4xl'>Obteniendo Qrupones...</p>
+        <p className='font-semibold text-4xl'>Obteniendo QRupones...</p>
       </div>
     );
   }

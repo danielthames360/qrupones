@@ -56,7 +56,7 @@ export const Navbar = () => {
             </li>
             <li className='navigation__item'>
               <Link className='navigation__link' href='/coupons' onClick={() => setMenuOpen(false)}>
-                Mis Qrupones
+                Mis QRupones
               </Link>
             </li>
             <li className='navigation__item'>

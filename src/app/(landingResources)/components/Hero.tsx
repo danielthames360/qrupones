@@ -26,12 +26,12 @@ export const Hero = () => {
           <div className='header__buttons'>
             <FadeIn as={'div'} origin='right' hoverScale={1.15} className='text-center'>
               <Link className='header__link' href='/customers' prefetch={false}>
-                Ver mis Qrupones
+                Ver mis QRupones
               </Link>
             </FadeIn>
 
             <a href='https://app.qrupones.com/' rel='noreferrer' className='header__button button'>
-              Iniciar sesión
+              Ingreso Staff
             </a>
           </div>
         </div>
@@ -54,7 +54,7 @@ export const Hero = () => {
 
             <FadeIn as={'div'} duration={3000} delay={1400} className='flex justify-center items-center gap-1 sm:hidden'>
               <a href='https://app.qrupones.com/' rel='noreferrer' target='_blank' className='content__info-cta button'>
-                Iniciar sesión
+                Ingreso Staff
               </a>
               <Image src={chevronUp} alt='icon' width={14} height={14} className='pt-1 w-5 h-5' />
             </FadeIn>
