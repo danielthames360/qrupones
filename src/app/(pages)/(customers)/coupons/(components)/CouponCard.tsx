@@ -41,6 +41,9 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
           <p className='text-[1rem] font-semibold sm:text-[1.1rem] leading-6 xl:text-[1.2rem]'>{`Válido hasta el ${new Date(
             coupon.FechaExpiracion
           ).toLocaleDateString()}`}</p>
+          <span className='text-[1rem] 2xl:text-[1.4rem] border-dashed border border-[#002239a1] px-2 py-1 rounded w-max text-[#002239] font-sans'>
+            <small>Código:</small> {coupon.CodigoQR}
+          </span>
           <button
             onClick={() => setQrModalOpen(true)}
             className='button button-page py-2 px-4 text-[1.1rem] sm:text-[1.2rem] xl:text-[1.3rem]'>
