@@ -27,10 +27,6 @@ export const Customers = () => {
     const phoneNumberWithoutCountryCode = inputPhone.startsWith(countryCode) ? inputPhone.slice(countryCode.length) : inputPhone;
 
     try {
-      setTimeout(() => {
-        setCodeSent(true);
-      }, 2000);
-
       await axios.post<ApiResponseInterface>(
         `${backendUrl}/notifications`,
         {
@@ -43,7 +39,10 @@ export const Customers = () => {
           },
         }
       );
-    
+
+      setTimeout(() => {
+        setCodeSent(true);
+      }, 4000);
     } catch (error: any) {
       setShowErrorMessage(true);
       console.error('Error al enviar la notificación:', error.response ? error.response.data : error.message);
@@ -150,7 +149,8 @@ export const Customers = () => {
         ) : (
           <div className='w-[70vw] h-[80vh] flex flex-col justify-center items-center'>
             <p className='text-center sm:w-[50vh] md:w-[60vh] 2xl:w-[40vh]'>
-              Te enviamos un <b>acceso único</b> al <b>+{inputPhone}</b> por WhatsApp, por favor revisa tus mensajes. 📲 Si no lo recibes en un momento, vuelve a intentarlo.
+              Te enviamos un <b>acceso único</b> al <b>+{inputPhone}</b> por WhatsApp, por favor revisa tus mensajes. 📲 Si no lo
+              recibes en un momento, vuelve a intentarlo.
             </p>
           </div>
         )}
