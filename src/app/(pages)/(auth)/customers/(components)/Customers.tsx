@@ -27,6 +27,10 @@ export const Customers = () => {
     const phoneNumberWithoutCountryCode = inputPhone.startsWith(countryCode) ? inputPhone.slice(countryCode.length) : inputPhone;
 
     try {
+      setTimeout(() => {
+        setCodeSent(true);
+      }, 5000);
+
       await axios.post<ApiResponseInterface>(
         `${backendUrl}/notifications`,
         {
@@ -39,10 +43,6 @@ export const Customers = () => {
           },
         }
       );
-
-      setTimeout(() => {
-        setCodeSent(true);
-      }, 4000);
     } catch (error: any) {
       setShowErrorMessage(true);
       console.error('Error al enviar la notificación:', error.response ? error.response.data : error.message);
