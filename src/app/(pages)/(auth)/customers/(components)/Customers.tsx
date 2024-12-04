@@ -29,7 +29,7 @@ export const Customers = () => {
     try {
       setTimeout(() => {
         setCodeSent(true);
-      }, 5000);
+      }, 7000);
 
       await axios.post<ApiResponseInterface>(
         `${backendUrl}/notifications`,
