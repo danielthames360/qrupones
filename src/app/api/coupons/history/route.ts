@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
-import { validateAuth, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
-import { Prisma } from '@prisma/client';
+import { validateSession, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
 
 interface CouponHistoryResult {
   CodigoQR: string;
@@ -20,21 +19,15 @@ interface CouponHistoryResult {
   Categoria: string | null;
 }
 
-export async function POST(request: NextRequest) {
-  // Validate authentication
-  if (!validateAuth(request)) {
+export async function GET(request: NextRequest) {
+  // Validate session and get the code
+  const code = await validateSession(request);
+  if (!code) {
     return unauthorizedResponse();
   }
 
   try {
-    const body = await request.json();
-    const { code } = body;
-
-    if (!code) {
-      return errorResponse('Código requerido');
-    }
-
-    // Validate session exists
+    // Validate session exists in database
     const session = await prisma.sesionesClientes.findFirst({
       where: { Codigo: code },
     });
@@ -75,8 +68,7 @@ export async function POST(request: NextRequest) {
     `;
 
     return successResponse(results);
-  } catch (error) {
-    console.error('Error getting coupon history:', error);
+  } catch {
     return errorResponse('Error al obtener el historial', 500);
   }
 }

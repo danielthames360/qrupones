@@ -1,60 +1,30 @@
 'use client';
 
 import { emptyTag, noLogo } from '@/app/(landingResources)/assets/images';
-import { ApiResponseInterface, CouponsHistoryInterface } from '@/interfaces';
+import { CouponsHistoryInterface } from '@/interfaces';
 import { endpoints } from '@/constants/endpoints';
+import { useFetchApi } from '@/hooks/useFetchApi';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
+type HistoryFilterType = 'Todos' | 'Utilizados' | 'Expirados';
 
-const fetchCoupons = async (code: string): Promise<CouponsHistoryInterface[] | undefined> => {
-  try {
-    const response = await fetch(endpoints.coupons.history, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${backendKey}`,
-      },
-      body: JSON.stringify({ code }),
-    });
+const FILTER_OPTIONS: { label: string; value: HistoryFilterType }[] = [
+  { label: 'Todos', value: 'Todos' },
+  { label: 'Utilizados', value: 'Utilizados' },
+  { label: 'Expirados', value: 'Expirados' },
+];
 
-    const data: ApiResponseInterface<CouponsHistoryInterface[]> = await response.json();
-
-    if (data.success) {
-      return data.data;
-    } else {
-      throw new Error('No se pudieron obtener los cupones.');
-    }
-  } catch (error: any) {
-    console.error('Error al obtener los cupones:', error.message);
-    return [];
-  }
-};
 export const TableHistory = () => {
   const { data: session } = useSession();
-  const [coupons, setCoupons] = useState<CouponsHistoryInterface[]>([]);
-  const [filter, setFilter] = useState<string>('Todos');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [filter, setFilter] = useState<HistoryFilterType>('Todos');
 
-  useEffect(() => {
-    const loadCoupons = async () => {
-      if (!session || !session.user.name) {
-        return null;
-      }
-      setIsLoading(true);
-      const data = await fetchCoupons(session.user.name);
-      setIsLoading(false);
-      if (data) {
-        setCoupons(data);
-      }
-    };
+  const { data: coupons, isLoading } = useFetchApi<CouponsHistoryInterface>({
+    endpoint: endpoints.coupons.history,
+    enabled: !!session,
+  });
 
-    loadCoupons();
-  }, [session]);
-
-  // Derived state: calculate during render instead of useEffect
   const filteredCoupons = useMemo(() => {
     if (filter === 'Todos') return coupons;
     if (filter === 'Utilizados') return coupons.filter((coupon) => coupon.FechaUso);
@@ -89,15 +59,18 @@ export const TableHistory = () => {
   return (
     <>
       <div className='flex gap-2 justify-center mt-4'>
-        <button onClick={() => setFilter('Todos')} className='category bg-transparent'>
-          <span className={`${filter === 'Todos' ? 'category-select' : ''}`}>Todos</span>
-        </button>
-        <button onClick={() => setFilter('Utilizados')} className='category bg-transparent'>
-          | <span className={`${filter === 'Utilizados' ? 'category-select' : ''}`}>Utilizados</span>
-        </button>
-        <button onClick={() => setFilter('Expirados')} className='category bg-transparent'>
-          | <span className={`${filter === 'Expirados' ? 'category-select' : ''}`}>Expirados</span>
-        </button>
+        {FILTER_OPTIONS.map((option, index) => (
+          <button
+            key={option.value}
+            onClick={() => setFilter(option.value)}
+            className='category bg-transparent'
+          >
+            {index > 0 && '| '}
+            <span className={filter === option.value ? 'category-select' : ''}>
+              {option.label}
+            </span>
+          </button>
+        ))}
       </div>
 
       <div className='max-h-[75%] mx-auto divide-y divide-[#e9e9e9] border-[2px] border-[#a3a3a930] shadow-md flex flex-col rounded-xl my-[4rem] overflow-y-auto overflow-x-hidden scroll'>

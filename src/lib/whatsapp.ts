@@ -29,7 +29,6 @@ export async function sendWhatsAppMessage(params: WhatsAppTemplateParams): Promi
   const { phone, nombre, codigo } = params;
 
   if (!BIRD_ACCESS_KEY) {
-    console.error('BIRD_ACCESS_KEY not configured');
     return { success: false, error: 'WhatsApp no configurado' };
   }
 
@@ -67,15 +66,13 @@ export async function sendWhatsAppMessage(params: WhatsAppTemplateParams): Promi
 
     if (response.ok) {
       return { success: true, messageId: data.id || 'sent' };
-    } else {
-      console.error('Bird API error:', data);
-      return {
-        success: false,
-        error: data.error?.message || data.title || 'Error enviando mensaje'
-      };
     }
-  } catch (error) {
-    console.error('Bird request failed:', error);
+
+    return {
+      success: false,
+      error: data.error?.message || data.title || 'Error enviando mensaje'
+    };
+  } catch {
     return { success: false, error: 'Error de conexión con WhatsApp' };
   }
 }

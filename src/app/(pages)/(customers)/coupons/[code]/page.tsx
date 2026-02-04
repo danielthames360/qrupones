@@ -14,7 +14,6 @@ const CouponPage = ({ params }: { params: { code: string } }) => {
         redirect: false,
       });
       if (res?.error) {
-        console.log({ res });
         return router.push('/customers');
       } else {
         return router.push('/coupons');

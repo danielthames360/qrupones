@@ -1,6 +1,10 @@
 import prisma from '@/lib/prisma';
+import { isValidUUID } from '@/lib/api-utils';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+
+// Session duration: 1 year in seconds
+const ONE_YEAR_IN_SECONDS = 365 * 24 * 60 * 60;
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -13,8 +17,9 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
-          if (!credentials?.code) {
-            throw new Error('Code is required');
+          // Validate input with Zod
+          if (!credentials?.code || !isValidUUID(credentials.code)) {
+            return null;
           }
 
           // Validate code directly with Prisma
@@ -23,7 +28,7 @@ const handler = NextAuth({
           });
 
           if (!session || !session.Codigo) {
-            throw new Error('Invalid credentials');
+            return null;
           }
 
           return {
@@ -32,8 +37,7 @@ const handler = NextAuth({
             name: session.Codigo,
             code: session.Codigo,
           };
-        } catch (e) {
-          console.log({ e });
+        } catch {
           return null;
         }
       },
@@ -42,24 +46,26 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
         token.code = user.code;
       }
-      // console.log('jwt server', token);
-
       return token;
     },
     async session({ session, token }) {
-      // console.log('session server', token);
-      // console.log(session);
-
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.code = token.code as string;
+      }
       return session;
     },
   },
   session: {
     strategy: 'jwt',
+    maxAge: ONE_YEAR_IN_SECONDS,
   },
-  jwt: {
-    secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/customers',
   },
 });
+
 export { handler as GET, handler as POST };

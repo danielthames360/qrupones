@@ -8,8 +8,6 @@ import { useState } from 'react';
 import { access, circleFigure, lineFigure, plusFigure, plusSmallFigure, rollFigure, starFigure } from '../assets/images';
 import { InputPhone } from './InputPhone';
 
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
-
 export const Customers = () => {
   const [inputPhone, setInputPhone] = useState<string>('');
   const [isValidPhone, setIsValidPhone] = useState(false);
@@ -30,11 +28,11 @@ export const Customers = () => {
       : inputPhone;
 
     try {
+      // Public endpoint - no authentication required
       const response = await fetch(endpoints.notifications, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${backendKey}`,
         },
         body: JSON.stringify({
           number: phoneNumberWithoutCountryCode,
@@ -49,8 +47,7 @@ export const Customers = () => {
       } else {
         setErrorMessage(data.message || 'No pudimos enviar el mensaje. Intenta de nuevo.');
       }
-    } catch (error) {
-      console.error('Error al enviar la notificación:', error);
+    } catch {
       setErrorMessage('Error de conexión. Por favor intenta de nuevo.');
     } finally {
       setIsSubmitting(false);

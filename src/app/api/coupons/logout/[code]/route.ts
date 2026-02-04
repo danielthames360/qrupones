@@ -1,21 +1,28 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
-import { validateAuth, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
+import { validateSession, unauthorizedResponse, errorResponse, successResponse, isValidUUID } from '@/lib/api-utils';
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ code: string }> }
 ) {
-  // Validate authentication
-  if (!validateAuth(request)) {
+  // Validate session
+  const sessionCode = await validateSession(request);
+  if (!sessionCode) {
     return unauthorizedResponse();
   }
 
   try {
     const { code } = await params;
 
-    if (!code) {
-      return errorResponse('Código requerido');
+    // Validate code format
+    if (!code || !isValidUUID(code)) {
+      return errorResponse('Código inválido');
+    }
+
+    // Verify user can only logout their own session
+    if (sessionCode !== code) {
+      return unauthorizedResponse();
     }
 
     // Find and delete session
@@ -32,8 +39,7 @@ export async function DELETE(
     });
 
     return successResponse(undefined, 'Sesión eliminada con éxito');
-  } catch (error) {
-    console.error('Error deleting session:', error);
+  } catch {
     return errorResponse('Error al eliminar la sesión', 500);
   }
 }

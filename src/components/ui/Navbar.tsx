@@ -6,24 +6,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
-
 export const Navbar = () => {
   const { data: session } = useSession();
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const handleLogout = async () => {
-    if (session?.user?.name) {
+    if (session?.user?.code) {
       try {
-        await fetch(`${endpoints.auth.logout}${session.user.name}`, {
+        // Session validation via cookies
+        await fetch(`${endpoints.auth.logout}${session.user.code}`, {
           method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${backendKey}`,
-          },
+          credentials: 'include',
         });
-      } catch (error) {
-        console.error('Error al cerrar sesión:', error);
+      } catch {
+        // Silent fail - logout will proceed anyway
       }
     }
     await signOut();

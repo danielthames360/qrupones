@@ -1,3 +1,7 @@
+import type { EmpresaCategoria } from './CouponsInterface';
+
+export type MonedaTipo = 'USD' | 'Bs';
+
 export interface CouponsHistoryInterface {
   CodigoQR: string;
   ClienteNombre: string;
@@ -10,7 +14,7 @@ export interface CouponsHistoryInterface {
   EstadoQR: number;
   MontoQrupon: number | null;
   FechaUso: Date | null;
-  Moneda: string;
+  Moneda: MonedaTipo;
   LogoUrl: string;
-  Categoria: string;
+  Categoria: EmpresaCategoria;
 }

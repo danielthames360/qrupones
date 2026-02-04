@@ -1,22 +1,16 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
-import { validateAuth, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
+import { validateSession, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
 
-export async function POST(request: NextRequest) {
-  // Validate authentication
-  if (!validateAuth(request)) {
+export async function GET(request: NextRequest) {
+  // Validate session and get the code
+  const code = await validateSession(request);
+  if (!code) {
     return unauthorizedResponse();
   }
 
   try {
-    const body = await request.json();
-    const { code } = body;
-
-    if (!code) {
-      return errorResponse('Código requerido');
-    }
-
-    // Validate session exists
+    // Validate session exists in database
     const session = await prisma.sesionesClientes.findFirst({
       where: { Codigo: code },
     });
@@ -69,8 +63,7 @@ export async function POST(request: NextRequest) {
     }));
 
     return successResponse(transformedCoupons);
-  } catch (error) {
-    console.error('Error getting coupons:', error);
+  } catch {
     return errorResponse('Error al obtener los cupones', 500);
   }
 }

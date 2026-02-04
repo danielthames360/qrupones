@@ -1,21 +1,18 @@
 import { NextRequest } from 'next/server';
 import prisma from '@/lib/prisma';
-import { validateAuth, unauthorizedResponse, errorResponse, successResponse } from '@/lib/api-utils';
+import { errorResponse, successResponse, isValidUUID } from '@/lib/api-utils';
 
+// Public endpoint - no authentication required (for login flow)
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ code: string }> }
 ) {
-  // Validate authentication
-  if (!validateAuth(request)) {
-    return unauthorizedResponse();
-  }
-
   try {
     const { code } = await params;
 
-    if (!code) {
-      return errorResponse('Código requerido');
+    // Validate code format with Zod
+    if (!code || !isValidUUID(code)) {
+      return errorResponse('Código inválido', 400);
     }
 
     // Find session by code
@@ -34,8 +31,7 @@ export async function GET(
       CodigoPais: session.CodigoPais,
       SesionClienteID: session.SesionClienteID,
     });
-  } catch (error) {
-    console.error('Error validating code:', error);
+  } catch {
     return errorResponse('Error al validar el código', 500);
   }
 }

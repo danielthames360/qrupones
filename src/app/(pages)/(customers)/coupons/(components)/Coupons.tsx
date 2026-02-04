@@ -1,64 +1,32 @@
 'use client';
 
 import { emptyTag } from '@/app/(landingResources)/assets/images';
-import { ApiResponseInterface, CouponsInterface } from '@/interfaces';
+import { CouponsInterface } from '@/interfaces';
 import { endpoints } from '@/constants/endpoints';
+import { useFetchApi } from '@/hooks/useFetchApi';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CouponCard } from './CouponCard';
 
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
+type FilterType = 'Todos' | 'Tiendas' | 'Gastronomia';
 
-const fetchCoupons = async (code: string): Promise<CouponsInterface[] | undefined> => {
-  try {
-    const response = await fetch(endpoints.coupons.list, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${backendKey}`,
-      },
-      body: JSON.stringify({ code }),
-    });
-
-    const data: ApiResponseInterface<CouponsInterface[]> = await response.json();
-
-    if (data.success) {
-      return data.data;
-    } else {
-      throw new Error('No se pudieron obtener los cupones.');
-    }
-  } catch (error: any) {
-    console.error('Error al obtener los cupones:', error.message);
-    return [];
-  }
-};
+const FILTER_OPTIONS: { label: string; value: FilterType }[] = [
+  { label: 'Todos', value: 'Todos' },
+  { label: 'Tiendas', value: 'Tiendas' },
+  { label: 'Gastronomía', value: 'Gastronomia' },
+];
 
 export const Coupons = () => {
   const { data: session } = useSession();
-  const [coupons, setCoupons] = useState<CouponsInterface[]>([]);
-  const [filter, setFilter] = useState<string>('Todos');
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [filter, setFilter] = useState<FilterType>('Todos');
 
-  useEffect(() => {
-    const loadCoupons = async () => {
-      if (!session || !session.user.name) {
-        return null;
-      }
+  const { data: coupons, isLoading } = useFetchApi<CouponsInterface>({
+    endpoint: endpoints.coupons.list,
+    enabled: !!session,
+  });
 
-      setIsLoading(true);
-      const data = await fetchCoupons(session.user.name);
-      setIsLoading(false);
-      if (data) {
-        setCoupons(data);
-      }
-    };
-
-    loadCoupons();
-  }, [session]);
-
-  // Derived state: calculate during render instead of useEffect
   const filteredCoupons = useMemo(() => {
     if (filter === 'Todos') return coupons;
     return coupons.filter((coupon) => coupon.Categoria === filter);
@@ -86,16 +54,18 @@ export const Coupons = () => {
         <div className='h-[15%] flex flex-col gap-5 md:h-[20%] justify-center items-center '>
           <h2>Mis QRupones</h2>
           <div className='flex gap-2 justify-center mt-4'>
-            <button onClick={() => setFilter('Todos')} className='category bg-transparent'>
-              <span className={`${filter === 'Todos' ? 'category-select' : ''}`}>Todos</span>
-            </button>
-
-            <button onClick={() => setFilter('Tiendas')} className='category bg-transparent'>
-              | <span className={`${filter === 'Tiendas' ? 'category-select' : ''}`}>Tiendas</span>
-            </button>
-            <button onClick={() => setFilter('Gastronomia')} className='category bg-transparent'>
-              | <span className={`${filter === 'Gastronomia' ? 'category-select' : ''}`}>Gastronomía </span>
-            </button>
+            {FILTER_OPTIONS.map((option, index) => (
+              <button
+                key={option.value}
+                onClick={() => setFilter(option.value)}
+                className='category bg-transparent'
+              >
+                {index > 0 && '| '}
+                <span className={filter === option.value ? 'category-select' : ''}>
+                  {option.label}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
 
