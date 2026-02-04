@@ -10,6 +10,7 @@ const inter = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://qrupones.com'),
   title: 'QRupones - Potencia la ReCompra y Fidelización de Clientes',
   description:
     'Escanea, ahorra, disfruta. Impulsando lealtad, generando ahorro. Incentiva a tus clientes a volver a tu negocio, beneficiándolos con cupones de descuentos para premiar su fidelidad e incentivar las recompras!',

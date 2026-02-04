@@ -1,8 +1,6 @@
 'use client';
 import { logout } from '@/app/(landingResources)/assets/images';
 import { endpoints } from '@/constants/endpoints';
-import { ApiResponseInterface } from '@/interfaces';
-import axios from 'axios';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,22 +14,19 @@ export const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
 
   const handleLogout = async () => {
-    if (session) {
+    if (session?.user?.name) {
       try {
-        const { data } = await axios.delete<ApiResponseInterface>(`${endpoints.auth.logout}${session!.user.name}`, {
+        await fetch(`${endpoints.auth.logout}${session.user.name}`, {
+          method: 'DELETE',
           headers: {
-            Authorization: `Bearer ${backendKey}`,
+            'Authorization': `Bearer ${backendKey}`,
           },
         });
-
-        await signOut();
       } catch (error) {
         console.error('Error al cerrar sesión:', error);
       }
-    } else {
-      // Si no hay sesión, simplemente llama a signOut
-      await signOut();
     }
+    await signOut();
   };
 
   if (!session) {

@@ -1,14 +1,13 @@
 'use client';
 
 import { ApiResponseInterface } from '@/interfaces';
-import axios from 'axios';
+import { endpoints } from '@/constants/endpoints';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useState } from 'react';
 import { access, circleFigure, lineFigure, plusFigure, plusSmallFigure, rollFigure, starFigure } from '../assets/images';
 import { InputPhone } from './InputPhone';
 
-const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
 export const Customers = () => {
@@ -17,38 +16,45 @@ export const Customers = () => {
   const [countryCode, setCountryCode] = useState<string>('591');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [codeSent, setCodeSent] = useState<boolean>(false);
-  const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputPhone || !isValidPhone) return;
 
     setIsSubmitting(true);
-    const phoneNumberWithoutCountryCode = inputPhone.startsWith(countryCode) ? inputPhone.slice(countryCode.length) : inputPhone;
+    setErrorMessage(null);
+
+    const phoneNumberWithoutCountryCode = inputPhone.startsWith(countryCode)
+      ? inputPhone.slice(countryCode.length)
+      : inputPhone;
 
     try {
-      setTimeout(() => {
-        setCodeSent(true);
-      }, 7000);
-
-      await axios.post<ApiResponseInterface>(
-        `${backendUrl}/notifications`,
-        {
+      const response = await fetch(endpoints.notifications, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${backendKey}`,
+        },
+        body: JSON.stringify({
           number: phoneNumberWithoutCountryCode,
           countryCode: countryCode,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${backendKey}`,
-          },
-        }
-      );
-    } catch (error: any) {
-      setShowErrorMessage(true);
-      console.error('Error al enviar la notificación:', error.response ? error.response.data : error.message);
-    }
+        }),
+      });
 
-    setIsSubmitting(false);
+      const data: ApiResponseInterface = await response.json();
+
+      if (data.success) {
+        setCodeSent(true);
+      } else {
+        setErrorMessage(data.message || 'No pudimos enviar el mensaje. Intenta de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al enviar la notificación:', error);
+      setErrorMessage('Error de conexión. Por favor intenta de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -126,8 +132,8 @@ export const Customers = () => {
               Te enviaremos un <b>acceso único</b> a este número por whatsapp
             </p>
 
-            {showErrorMessage && (
-              <p className='my-5 text-2xl text-red-500 font-medium'>No se pudo encontrar el número de WhatsApp</p>
+            {errorMessage && (
+              <p className='my-5 text-2xl text-red-500 font-medium text-center'>{errorMessage}</p>
             )}
 
             <form className='flex flex-col mt-10 gap-5 text-center' onSubmit={handleSubmit}>
@@ -140,7 +146,7 @@ export const Customers = () => {
               />
               <button
                 type='submit'
-                className={`button button-page mt-9 2xl:mt-16 ${isSubmitting && 'cursor-not-allowed'}`}
+                className={`button button-page mt-9 2xl:mt-16 ${isSubmitting && 'cursor-not-allowed opacity-70'}`}
                 disabled={isSubmitting}>
                 {isSubmitting ? 'Enviando...' : 'Enviar'}
               </button>
@@ -152,6 +158,14 @@ export const Customers = () => {
               Te enviamos un <b>acceso único</b> al <b>+{inputPhone}</b> por WhatsApp, por favor revisa tus mensajes. 📲 Si no lo
               recibes en un momento, vuelve a intentarlo.
             </p>
+            <button
+              onClick={() => {
+                setCodeSent(false);
+                setErrorMessage(null);
+              }}
+              className='button button-page mt-9'>
+              Volver a intentar
+            </button>
           </div>
         )}
       </div>

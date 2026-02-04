@@ -2,27 +2,25 @@
 
 import { emptyTag, noLogo } from '@/app/(landingResources)/assets/images';
 import { ApiResponseInterface, CouponsHistoryInterface } from '@/interfaces';
-import axios from 'axios';
+import { endpoints } from '@/constants/endpoints';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
 const fetchCoupons = async (code: string): Promise<CouponsHistoryInterface[] | undefined> => {
   try {
-    const { data } = await axios.post<ApiResponseInterface<CouponsHistoryInterface[]>>(
-      `${backendUrl}/coupons/getCouponsHistory`,
-      {
-        code,
+    const response = await fetch(endpoints.coupons.history, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${backendKey}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${backendKey}`,
-        },
-      }
-    );
+      body: JSON.stringify({ code }),
+    });
+
+    const data: ApiResponseInterface<CouponsHistoryInterface[]> = await response.json();
 
     if (data.success) {
       return data.data;
@@ -37,7 +35,6 @@ const fetchCoupons = async (code: string): Promise<CouponsHistoryInterface[] | u
 export const TableHistory = () => {
   const { data: session } = useSession();
   const [coupons, setCoupons] = useState<CouponsHistoryInterface[]>([]);
-  const [filteredCoupons, setFilteredCoupons] = useState<CouponsHistoryInterface[]>([]);
   const [filter, setFilter] = useState<string>('Todos');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -57,15 +54,11 @@ export const TableHistory = () => {
     loadCoupons();
   }, [session]);
 
-  useEffect(() => {
-    let filtered = coupons;
-
-    if (filter === 'Utilizados') {
-      filtered = coupons.filter((coupon) => coupon.FechaUso);
-    } else if (filter === 'Expirados') {
-      filtered = coupons.filter((coupon) => !coupon.FechaUso);
-    }
-    setFilteredCoupons(filtered);
+  // Derived state: calculate during render instead of useEffect
+  const filteredCoupons = useMemo(() => {
+    if (filter === 'Todos') return coupons;
+    if (filter === 'Utilizados') return coupons.filter((coupon) => coupon.FechaUso);
+    return coupons.filter((coupon) => !coupon.FechaUso);
   }, [filter, coupons]);
 
   if (isLoading) {

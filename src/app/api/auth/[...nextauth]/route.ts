@@ -1,10 +1,6 @@
-import { endpoints } from '@/constants/endpoints';
-import { ApiResponseInterface, SessionInterface } from '@/interfaces';
-import axios from 'axios';
+import prisma from '@/lib/prisma';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
 const handler = NextAuth({
   secret: process.env.NEXTAUTH_SECRET,
@@ -17,22 +13,24 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const { data } = await axios.get<ApiResponseInterface<SessionInterface>>(
-            `${endpoints.auth.login}${credentials!.code}`,
-            {
-              headers: {
-                Authorization: `Bearer ${backendKey}`,
-              },
-            }
-          );
+          if (!credentials?.code) {
+            throw new Error('Code is required');
+          }
 
-          if (!data.success || !data.data?.Codigo) throw new Error('Invalid credentials');
+          // Validate code directly with Prisma
+          const session = await prisma.sesionesClientes.findFirst({
+            where: { Codigo: credentials.code },
+          });
+
+          if (!session || !session.Codigo) {
+            throw new Error('Invalid credentials');
+          }
 
           return {
-            id: data.data.Codigo,
+            id: session.Codigo,
             email: '',
-            name: data.data.Codigo,
-            code: data.data.Codigo,
+            name: session.Codigo,
+            code: session.Codigo,
           };
         } catch (e) {
           console.log({ e });

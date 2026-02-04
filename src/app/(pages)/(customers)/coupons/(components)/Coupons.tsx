@@ -2,29 +2,27 @@
 
 import { emptyTag } from '@/app/(landingResources)/assets/images';
 import { ApiResponseInterface, CouponsInterface } from '@/interfaces';
-import axios from 'axios';
+import { endpoints } from '@/constants/endpoints';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CouponCard } from './CouponCard';
 
-const backendUrl = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API;
 const backendKey = process.env.NEXT_PUBLIC_QRUPONES_NOTIFICATION_API_KEY;
 
 const fetchCoupons = async (code: string): Promise<CouponsInterface[] | undefined> => {
   try {
-    const { data } = await axios.post<ApiResponseInterface<CouponsInterface[]>>(
-      `${backendUrl}/coupons/getCoupons`,
-      {
-        code,
+    const response = await fetch(endpoints.coupons.list, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${backendKey}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${backendKey}`,
-        },
-      }
-    );
+      body: JSON.stringify({ code }),
+    });
+
+    const data: ApiResponseInterface<CouponsInterface[]> = await response.json();
 
     if (data.success) {
       return data.data;
@@ -40,7 +38,6 @@ const fetchCoupons = async (code: string): Promise<CouponsInterface[] | undefine
 export const Coupons = () => {
   const { data: session } = useSession();
   const [coupons, setCoupons] = useState<CouponsInterface[]>([]);
-  const [filteredCoupons, setFilteredCoupons] = useState<CouponsInterface[]>([]);
   const [filter, setFilter] = useState<string>('Todos');
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -61,16 +58,10 @@ export const Coupons = () => {
     loadCoupons();
   }, [session]);
 
-  useEffect(() => {
-    let filtered = coupons;
-
-    if (filter === 'Tiendas') {
-      filtered = coupons.filter((coupon) => coupon.Categoria === 'Tiendas');
-    } else if (filter === 'Gastronomia') {
-      filtered = coupons.filter((coupon) => coupon.Categoria === 'Gastronomia');
-    }
-
-    setFilteredCoupons(filtered);
+  // Derived state: calculate during render instead of useEffect
+  const filteredCoupons = useMemo(() => {
+    if (filter === 'Todos') return coupons;
+    return coupons.filter((coupon) => coupon.Categoria === filter);
   }, [filter, coupons]);
 
   if (isLoading) {
@@ -110,8 +101,8 @@ export const Coupons = () => {
 
         <div className='max-h-[70%] md:max-h-[60%] flex flex-col items-center gap-10 overflow-y-auto overflow-x-hidden scroll pr-5 pb-8 md:flex-row md:justify-center md:flex-wrap'>
           {filteredCoupons.length > 0 ? (
-            filteredCoupons.map((coupon, index) => (
-              <div className='md:w-[48%]' key={index}>
+            filteredCoupons.map((coupon) => (
+              <div className='md:w-[48%]' key={coupon.CodigoQR}>
                 <CouponCard coupon={coupon} />
               </div>
             ))

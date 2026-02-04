@@ -1,7 +1,9 @@
-'use client';
-
 import dynamic from 'next/dynamic';
-import { Clients, Footer, Hero, Questions } from './(landingResources)/components';
+import { Hero } from './(landingResources)/components/Hero';
+import { Clients } from './(landingResources)/components/Clients';
+import { Questions } from './(landingResources)/components/Questions';
+import { Footer } from './(landingResources)/components/Footer';
+
 const Info = dynamic(() => import('./(landingResources)/components/Info'), { ssr: false });
 
 export default function Home() {

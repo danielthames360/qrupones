@@ -1,0 +1,239 @@
+generator client {
+  provider   = "prisma-client-js"
+  output     = "../src/generated/prisma"
+  engineType = "client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Campanas {
+  CampanaID           Int       @id @default(autoincrement())
+  Nombre              String    @db.VarChar(255)
+  Desde               DateTime? @db.DateTime(0)
+  Hasta               DateTime? @db.DateTime(0)
+  Activa              Boolean?  @default(true)
+  MensajeCanje        String?   @db.VarChar(500)
+  Fondo               String?   @db.VarChar(255)
+  MensajeSaludoWP     String?   @db.VarChar(1000)
+  MensajeSaludoWP2    String?   @db.VarChar(1000)
+  MensajeSaludoWP3    String?   @db.VarChar(1000)
+  MensajeSaludoWP4    String?   @db.VarChar(1000)
+  MensajeSaludoWP5    String?   @db.VarChar(1000)
+  LetrasNegras        String?   @db.VarChar(50)
+  TipoCampanaID       Int?      @default(0)
+  TipoCampanaDetalle  String?   @default("") @db.VarChar(50)
+  ClientePosicionY    Int?      @default(0)
+  VigenciaPosicionY   Int?      @default(0)
+  TamanoQR            Int?      @default(100)
+  DiasVigencia        Int?      @default(0)
+  VigenciaHasta       DateTime? @db.Date
+  DsctoPorcentaje     Int?      @default(0)
+  DsctoMonto          Float?    @default(0) @db.Float
+  EmpresaID           Int
+  Cantidad            Int?
+  CategorizacionCanje Int?      @default(1) @db.SmallInt
+  API                 Boolean?  @default(false)
+  APIworkspaceId      String?   @db.VarChar(50)
+  APIchannelId        String?   @db.VarChar(50)
+  APIprojectId        String?   @db.VarChar(50)
+  APIversionId        String?   @db.VarChar(50)
+  createdAt           DateTime  @db.DateTime(0)
+  updatedAt           DateTime  @db.DateTime(0)
+  Empresas            Empresas  @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Campanas_ibfk_1")
+  Cupones             Cupones[]
+
+  @@index([EmpresaID], map: "EmpresaID")
+}
+
+model Campanas_Marcas_Sucursales {
+  CampanaID  Int
+  MarcaID    Int
+  SucursalID Int
+  createdAt  DateTime @db.DateTime(0)
+  updatedAt  DateTime @db.DateTime(0)
+
+  @@id([CampanaID, MarcaID, SucursalID])
+}
+
+model Cupones {
+  CuponID         Int         @id @default(autoincrement())
+  CodigoQR        String      @db.VarChar(15)
+  EstadoQR        Int?        @db.TinyInt
+  CantidadCanjes  Int?        @default(0) @db.SmallInt
+  CanjesMaximos   Int?        @db.SmallInt
+  FechaCanje      DateTime?   @db.DateTime(0)
+  FechaExpiracion DateTime?   @db.DateTime(0)
+  UsuarioCanjeID  Int?
+  SucursalCanjeID Int?
+  CampanaID       Int?
+  EstadoWhatsapp  Int?        @default(0) @db.TinyInt
+  VentaID         Int
+  createdAt       DateTime    @db.DateTime(0)
+  updatedAt       DateTime    @db.DateTime(0)
+  Usuarios        Usuarios?   @relation(fields: [UsuarioCanjeID], references: [UsuarioID], map: "Cupones_ibfk_71")
+  Sucursales      Sucursales? @relation(fields: [SucursalCanjeID], references: [SucursalID], map: "Cupones_ibfk_72")
+  Campanas        Campanas?   @relation(fields: [CampanaID], references: [CampanaID], map: "Cupones_ibfk_73")
+  Ventas          Ventas      @relation(fields: [VentaID], references: [VentaID], onDelete: Cascade, map: "Cupones_ibfk_74")
+
+  @@index([CampanaID], map: "CampanaID")
+  @@index([VentaID], map: "Cupones_ibfk_74")
+  @@index([SucursalCanjeID], map: "SucursalCanjeID")
+  @@index([UsuarioCanjeID], map: "UsuarioCanjeID")
+}
+
+model Empresas {
+  EmpresaID              Int                 @id @default(autoincrement())
+  Nombre                 String              @db.VarChar(255)
+  CodigoCreacionUsuarios String              @db.VarChar(30)
+  FechaInicio            DateTime?           @db.DateTime(0)
+  Cuota                  Float?
+  UltimoPago             DateTime?           @db.DateTime(0)
+  Nit                    String              @db.VarChar(50)
+  Representante          String              @db.VarChar(100)
+  Telefono               String              @db.VarChar(30)
+  Activa                 Boolean?            @default(true)
+  Moneda                 String?             @db.Char(100)
+  Pais                   String?             @db.Char(100)
+  ClientSecret           String?             @db.VarChar(200)
+  ReportURL              String?             @db.VarChar(300)
+  Prioridad              Int?                @default(10)
+  LogoUrl                String?             @db.VarChar(255)
+  Categoria              Empresas_Categoria? @default(Tiendas)
+  createdAt              DateTime            @db.DateTime(0)
+  updatedAt              DateTime            @db.DateTime(0)
+  Campanas               Campanas[]
+  Marcas                 Marcas[]
+  Sucursales             Sucursales[]
+  Usuarios               Usuarios[]
+}
+
+model Marcas {
+  MarcaID           Int                 @id @default(autoincrement())
+  Nombre            String              @db.VarChar(255)
+  Activa            Boolean?            @default(true)
+  EmpresaID         Int
+  createdAt         DateTime            @db.DateTime(0)
+  updatedAt         DateTime            @db.DateTime(0)
+  Empresas          Empresas            @relation(fields: [EmpresaID], references: [EmpresaID], onUpdate: Restrict, map: "Marcas_ibfk_1")
+  Sucursales_Marcas Sucursales_Marcas[]
+
+  @@index([EmpresaID], map: "EmpresaID")
+}
+
+model Pagos {
+  PagoID     Int         @id @default(autoincrement())
+  Fecha      DateTime?   @db.DateTime(0)
+  Monto      Float?      @db.Float
+  SucursalID Int?
+  Obs        String?     @db.VarChar(255)
+  createdAt  DateTime    @db.DateTime(0)
+  updatedAt  DateTime    @db.DateTime(0)
+  Sucursales Sucursales? @relation(fields: [SucursalID], references: [SucursalID], map: "Pagos_ibfk_1")
+
+  @@index([SucursalID], map: "SucursalID")
+}
+
+model Queries {
+  ID       Int     @id @default(autoincrement())
+  Name_    String? @db.LongText
+  select_  String? @db.LongText
+  from_    String? @db.LongText
+  where_   String? @db.LongText
+  order_by String? @db.LongText
+  group_by String? @db.LongText
+}
+
+model SesionesClientes {
+  SesionClienteID Int     @id @default(autoincrement())
+  Codigo          String? @db.VarChar(50)
+  ClienteNombre   String? @db.VarChar(255)
+  Celular         String? @db.VarChar(255)
+  CodigoPais      String? @db.VarChar(50)
+}
+
+model Sucursales {
+  SucursalID        Int                 @id @default(autoincrement())
+  Nombre            String              @db.VarChar(255)
+  Direccion         String?             @db.VarChar(255)
+  Horarios          String?             @db.VarChar(255)
+  Telefonos         String?             @db.VarChar(255)
+  Activa            Boolean?            @default(true)
+  EmpresaID         Int
+  createdAt         DateTime            @db.DateTime(0)
+  updatedAt         DateTime            @db.DateTime(0)
+  Cupones           Cupones[]
+  Pagos             Pagos[]
+  Empresas          Empresas            @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Sucursales_ibfk_1")
+  Sucursales_Marcas Sucursales_Marcas[]
+  Ventas            Ventas[]
+
+  @@index([EmpresaID], map: "EmpresaID")
+}
+
+model Sucursales_Marcas {
+  SucursalID Int
+  MarcaID    Int
+  Sucursales Sucursales @relation(fields: [SucursalID], references: [SucursalID], map: "Sucursales_Marcas_ibfk_1")
+  Marcas     Marcas     @relation(fields: [MarcaID], references: [MarcaID], map: "Sucursales_Marcas_ibfk_2")
+
+  @@id([SucursalID, MarcaID])
+  @@unique([SucursalID, MarcaID], map: "Sucursales_Marcas_SucursalID_MarcaID_unique")
+  @@index([MarcaID], map: "MarcaID")
+}
+
+model Usuarios {
+  UsuarioID     Int                     @id @default(autoincrement())
+  Nombre        String                  @db.VarChar(255)
+  Login         String                  @unique(map: "Login") @db.VarChar(255)
+  Pwd           String?                 @db.VarChar(255)
+  Correo        String?                 @db.VarChar(255)
+  Telefono      String?                 @db.VarChar(255)
+  Activa        Boolean?                @default(true)
+  TipoUsuarioID Usuarios_TipoUsuarioID?
+  EmpresaID     Int?
+  createdAt     DateTime                @db.DateTime(0)
+  updatedAt     DateTime                @db.DateTime(0)
+  Cupones       Cupones[]
+  Empresas      Empresas?               @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Usuarios_ibfk_1")
+  Ventas        Ventas[]
+
+  @@index([EmpresaID], map: "EmpresaID")
+}
+
+model Ventas {
+  VentaID                Int        @id @default(autoincrement())
+  Fecha                  DateTime?  @db.DateTime(0)
+  Nit                    String?    @db.VarChar(50)
+  Celular                String?    @db.VarChar(20)
+  ClienteNombre          String?    @db.VarChar(150)
+  Monto                  Float?     @db.Float
+  esRecompra             Boolean?
+  UsuarioVentaID         Int
+  SucursalVentaID        Int
+  UsuarioActualizacionID Int?
+  Activa                 Boolean?   @default(true)
+  Marcas                 String?    @db.VarChar(50)
+  CuponOrigenID          Int?
+  CodigoPais             Int?       @db.SmallInt
+  createdAt              DateTime   @db.DateTime(0)
+  updatedAt              DateTime   @db.DateTime(0)
+  Cupones                Cupones[]
+  Usuarios               Usuarios   @relation(fields: [UsuarioVentaID], references: [UsuarioID], onDelete: NoAction, map: "Ventas_ibfk_37")
+  Sucursales             Sucursales @relation(fields: [SucursalVentaID], references: [SucursalID], onDelete: NoAction, map: "Ventas_ibfk_38")
+
+  @@index([SucursalVentaID], map: "SucursalVentaID")
+  @@index([UsuarioVentaID], map: "UsuarioVentaID")
+}
+
+enum Usuarios_TipoUsuarioID {
+  user
+  admin
+  superadmin
+}
+
+enum Empresas_Categoria {
+  Tiendas
+  Gastronomia
+}
