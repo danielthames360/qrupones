@@ -13,7 +13,7 @@ interface DownloadAllModalProps {
   coupons: { CodigoQR: string; Nombre: string }[];
 }
 
-const CLOUDINARY_BASE = 'https://res.cloudinary.com/dl7f4dxdp/image/upload/QRupon';
+const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL;
 
 function probeImage(url: string): Promise<boolean> {
   return new Promise((resolve) => {
