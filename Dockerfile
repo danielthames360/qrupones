@@ -14,8 +14,8 @@ COPY prisma.config.ts ./
 # Install dependencies
 RUN npm ci
 
-# Generate Prisma Client
-RUN npx prisma generate
+# Generate Prisma Client (dummy URL - generate doesn't connect to DB)
+RUN DATABASE_URL="mysql://user:pass@localhost:3306/db" npx prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
