@@ -62,7 +62,10 @@ export async function GET(request: NextRequest) {
       Categoria: coupon.Campanas?.Empresas?.Categoria || 'Tiendas',
     }));
 
-    return successResponse(transformedCoupons);
+    return successResponse({
+      clienteNombre: session.ClienteNombre || null,
+      coupons: transformedCoupons,
+    });
   } catch {
     return errorResponse('Error al obtener los cupones', 500);
   }

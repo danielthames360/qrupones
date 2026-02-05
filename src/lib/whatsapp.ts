@@ -7,7 +7,7 @@
 const BIRD_WORKSPACE_ID = '6c085920-55be-4f94-ac49-e397de649faf';
 const BIRD_CHANNEL_ID = '4d7d4767-3932-503a-a356-144c93e00497';
 const BIRD_PROJECT_ID = '953fb475-c9cd-424f-8252-b09d387881f7';
-const BIRD_TEMPLATE_VERSION = '0ef93cf5-3f47-45aa-aa55-46dd576ef692';
+const BIRD_TEMPLATE_VERSION = '13e51c34-1833-4d95-b8e9-6dda4062b2bd';
 const BIRD_ACCESS_KEY = process.env.BIRD_ACCESS_KEY;
 
 interface WhatsAppTemplateParams {
