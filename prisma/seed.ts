@@ -18,7 +18,7 @@ async function main() {
         Activa: true,
         Moneda: 'Bs',
         Pais: 'Bolivia',
-        LogoUrl: 'https://placehold.co/200x200/4F46E5/white?text=TechStore',
+        LogoUrl: 'https://placehold.co/200x200.png?text=TechStore',
         Categoria: 'Tiendas',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -37,7 +37,7 @@ async function main() {
         Activa: true,
         Moneda: 'Bs',
         Pais: 'Bolivia',
-        LogoUrl: 'https://placehold.co/200x200/DC2626/white?text=ElSabor',
+        LogoUrl: 'https://placehold.co/200x200.png?text=ElSabor',
         Categoria: 'Gastronomia',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -56,7 +56,7 @@ async function main() {
         Activa: true,
         Moneda: 'Bs',
         Pais: 'Bolivia',
-        LogoUrl: 'https://placehold.co/200x200/7C3AED/white?text=ModaExpress',
+        LogoUrl: 'https://placehold.co/200x200.png?text=ModaExpress',
         Categoria: 'Tiendas',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -228,7 +228,7 @@ async function main() {
   ]);
   console.log(`✅ Created ${campanas.length} campañas`);
 
-  // 5. Create Sales for test customer
+  // 5. Create Sales for test customer (Daniel Cespedes - 77655430)
   const ventas = await Promise.all([
     prisma.ventas.upsert({
       where: { VentaID: 1 },
@@ -237,8 +237,8 @@ async function main() {
         VentaID: 1,
         Fecha: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
         Nit: '12345678',
-        Celular: '70000001',
-        ClienteNombre: 'Juan Pérez',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
         Monto: 500.0,
         esRecompra: false,
         UsuarioVentaID: 1,
@@ -256,8 +256,8 @@ async function main() {
         VentaID: 2,
         Fecha: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000),
         Nit: '12345678',
-        Celular: '70000001',
-        ClienteNombre: 'Juan Pérez',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
         Monto: 150.0,
         esRecompra: true,
         UsuarioVentaID: 2,
@@ -275,9 +275,67 @@ async function main() {
         VentaID: 3,
         Fecha: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000),
         Nit: '12345678',
-        Celular: '70000001',
-        ClienteNombre: 'Juan Pérez',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
         Monto: 300.0,
+        esRecompra: true,
+        UsuarioVentaID: 3,
+        SucursalVentaID: 3,
+        Activa: true,
+        CodigoPais: 591,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    // Additional sales for more coupons
+    prisma.ventas.upsert({
+      where: { VentaID: 4 },
+      update: {},
+      create: {
+        VentaID: 4,
+        Fecha: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000),
+        Nit: '12345678',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
+        Monto: 450.0,
+        esRecompra: true,
+        UsuarioVentaID: 1,
+        SucursalVentaID: 1,
+        Activa: true,
+        CodigoPais: 591,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    prisma.ventas.upsert({
+      where: { VentaID: 5 },
+      update: {},
+      create: {
+        VentaID: 5,
+        Fecha: new Date(now.getTime() - 4 * 24 * 60 * 60 * 1000),
+        Nit: '12345678',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
+        Monto: 200.0,
+        esRecompra: true,
+        UsuarioVentaID: 2,
+        SucursalVentaID: 2,
+        Activa: true,
+        CodigoPais: 591,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    prisma.ventas.upsert({
+      where: { VentaID: 6 },
+      update: {},
+      create: {
+        VentaID: 6,
+        Fecha: new Date(now.getTime() - 6 * 24 * 60 * 60 * 1000),
+        Nit: '12345678',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
+        Monto: 350.0,
         esRecompra: true,
         UsuarioVentaID: 3,
         SucursalVentaID: 3,
@@ -289,14 +347,14 @@ async function main() {
     }),
     // Used coupon sale
     prisma.ventas.upsert({
-      where: { VentaID: 4 },
+      where: { VentaID: 7 },
       update: {},
       create: {
-        VentaID: 4,
+        VentaID: 7,
         Fecha: new Date(now.getTime() - 20 * 24 * 60 * 60 * 1000),
         Nit: '12345678',
-        Celular: '70000001',
-        ClienteNombre: 'Juan Pérez',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
         Monto: 800.0,
         esRecompra: false,
         UsuarioVentaID: 1,
@@ -309,14 +367,14 @@ async function main() {
     }),
     // Expired coupon sale
     prisma.ventas.upsert({
-      where: { VentaID: 5 },
+      where: { VentaID: 8 },
       update: {},
       create: {
-        VentaID: 5,
+        VentaID: 8,
         Fecha: new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000),
         Nit: '12345678',
-        Celular: '70000001',
-        ClienteNombre: 'Juan Pérez',
+        Celular: '77655430',
+        ClienteNombre: 'Daniel Cespedes',
         Monto: 250.0,
         esRecompra: false,
         UsuarioVentaID: 1,
@@ -330,16 +388,16 @@ async function main() {
   ]);
   console.log(`✅ Created ${ventas.length} ventas`);
 
-  // 6. Create Coupons
+  // 6. Create Coupons (6 active, 1 used, 1 expired)
   const cupones = await Promise.all([
-    // Active coupons
+    // Active coupons (6 total)
     prisma.cupones.upsert({
       where: { CuponID: 1 },
       update: {},
       create: {
         CuponID: 1,
         CodigoQR: 'QR-TECH-001',
-        EstadoQR: 1,
+        EstadoQR: 0,
         CantidadCanjes: 0,
         CanjesMaximos: 1,
         FechaExpiracion: new Date(now.getTime() + 25 * 24 * 60 * 60 * 1000),
@@ -356,10 +414,10 @@ async function main() {
       create: {
         CuponID: 2,
         CodigoQR: 'QR-SABOR-001',
-        EstadoQR: 1,
+        EstadoQR: 0,
         CantidadCanjes: 0,
         CanjesMaximos: 1,
-        FechaExpiracion: new Date(now.getTime() + 12 * 24 * 60 * 60 * 1000),
+        FechaExpiracion: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000), // Expiring soon!
         CampanaID: 2,
         EstadoWhatsapp: 1,
         VentaID: 2,
@@ -373,7 +431,7 @@ async function main() {
       create: {
         CuponID: 3,
         CodigoQR: 'QR-MODA-001',
-        EstadoQR: 1,
+        EstadoQR: 0,
         CantidadCanjes: 0,
         CanjesMaximos: 1,
         FechaExpiracion: new Date(now.getTime() + 19 * 24 * 60 * 60 * 1000),
@@ -384,14 +442,65 @@ async function main() {
         updatedAt: new Date(),
       },
     }),
-    // Used coupon
     prisma.cupones.upsert({
       where: { CuponID: 4 },
       update: {},
       create: {
         CuponID: 4,
         CodigoQR: 'QR-TECH-002',
-        EstadoQR: 2,
+        EstadoQR: 0,
+        CantidadCanjes: 0,
+        CanjesMaximos: 1,
+        FechaExpiracion: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000),
+        CampanaID: 1,
+        EstadoWhatsapp: 1,
+        VentaID: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    prisma.cupones.upsert({
+      where: { CuponID: 5 },
+      update: {},
+      create: {
+        CuponID: 5,
+        CodigoQR: 'QR-SABOR-002',
+        EstadoQR: 0,
+        CantidadCanjes: 0,
+        CanjesMaximos: 1,
+        FechaExpiracion: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000), // Expiring very soon!
+        CampanaID: 2,
+        EstadoWhatsapp: 1,
+        VentaID: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    prisma.cupones.upsert({
+      where: { CuponID: 6 },
+      update: {},
+      create: {
+        CuponID: 6,
+        CodigoQR: 'QR-MODA-002',
+        EstadoQR: 0,
+        CantidadCanjes: 0,
+        CanjesMaximos: 1,
+        FechaExpiracion: new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000),
+        CampanaID: 3,
+        EstadoWhatsapp: 1,
+        VentaID: 6,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    }),
+    // Used coupon (for history)
+    prisma.cupones.upsert({
+      where: { CuponID: 7 },
+      update: {},
+      create: {
+        CuponID: 7,
+        CodigoQR: 'QR-TECH-USED',
+        EstadoQR: 1,
         CantidadCanjes: 1,
         CanjesMaximos: 1,
         FechaCanje: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
@@ -400,25 +509,25 @@ async function main() {
         SucursalCanjeID: 1,
         CampanaID: 1,
         EstadoWhatsapp: 1,
-        VentaID: 4,
+        VentaID: 7,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     }),
-    // Expired coupon
+    // Expired coupon (for history)
     prisma.cupones.upsert({
-      where: { CuponID: 5 },
+      where: { CuponID: 8 },
       update: {},
       create: {
-        CuponID: 5,
-        CodigoQR: 'QR-TECH-003',
-        EstadoQR: 3,
+        CuponID: 8,
+        CodigoQR: 'QR-TECH-EXPIRED',
+        EstadoQR: 0,
         CantidadCanjes: 0,
         CanjesMaximos: 1,
         FechaExpiracion: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
         CampanaID: 1,
         EstadoWhatsapp: 1,
-        VentaID: 5,
+        VentaID: 8,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -433,8 +542,8 @@ async function main() {
     create: {
       SesionClienteID: 1,
       Codigo: 'TEST123',
-      ClienteNombre: 'Juan Pérez',
-      Celular: '70000001',
+      ClienteNombre: 'Daniel Cespedes',
+      Celular: '77655430',
       CodigoPais: '591',
     },
   });
@@ -444,8 +553,9 @@ async function main() {
   console.log('\n📋 Test Instructions:');
   console.log('1. Run: npm run dev');
   console.log('2. Open: http://localhost:3000/coupons/TEST123');
-  console.log('3. You should see 3 active coupons');
+  console.log('3. You should see 6 active coupons (some expiring soon!)');
   console.log('4. Check /history for used/expired coupons');
+  console.log('\nAlternatively, log in with WhatsApp using: +591 77655430');
 }
 
 main()
