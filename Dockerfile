@@ -22,6 +22,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY --from=deps /app/src/generated ./src/generated
 
 # Build the application
 RUN npm run build
