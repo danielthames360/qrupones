@@ -73,14 +73,14 @@ export const Coupons = () => {
     all: coupons.length,
     tiendas: coupons.filter((c) => c.Categoria === 'Tiendas').length,
     gastronomia: coupons.filter((c) => c.Categoria === 'Gastronomia').length,
-    boliche: coupons.filter((c) => c.Categoria === 'Eventos').length,
+    eventos: coupons.filter((c) => c.Categoria === 'Eventos').length,
   }), [coupons]);
 
   const filterOptions = [
     { label: 'Todos', value: 'Todos' as FilterType, count: counts.all },
     { label: 'Tiendas', value: 'Tiendas' as FilterType, count: counts.tiendas },
     { label: 'Gastronomía', value: 'Gastronomia' as FilterType, count: counts.gastronomia },
-    { label: 'Eventos', value: 'Eventos' as FilterType, count: counts.boliche },
+    { label: 'Eventos', value: 'Eventos' as FilterType, count: counts.eventos },
   ];
 
   // Extract first name for greeting
@@ -171,7 +171,7 @@ export const Coupons = () => {
         ) : filteredCoupons.length === 0 ? (
           <EmptyState
             icon="coupons"
-            title={`Sin cupones de ${filter === 'Tiendas' ? 'tiendas' : filter === 'Gastronomia' ? 'gastronomía' : 'boliche'}`}
+            title={`Sin cupones de ${filter === 'Tiendas' ? 'tiendas' : filter === 'Gastronomia' ? 'gastronomía' : 'eventos'}`}
             description="No tienes cupones en esta categoría. Prueba con otra."
           />
         ) : (
