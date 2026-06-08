@@ -236,4 +236,5 @@ enum Usuarios_TipoUsuarioID {
 enum Empresas_Categoria {
   Tiendas
   Gastronomia
+  Eventos
 }

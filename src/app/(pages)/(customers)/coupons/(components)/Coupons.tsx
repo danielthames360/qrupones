@@ -5,13 +5,14 @@ import { endpoints } from '@/constants/endpoints';
 import { useSession } from 'next-auth/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CouponCard } from './CouponCard';
+import { GroupedCouponCard } from './GroupedCouponCard';
 import { FilterTabs } from '@/components/ui/FilterTabs';
 import { CouponsLoadingSkeleton } from '@/components/ui/Skeleton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import Link from 'next/link';
 import { DownloadAllModal } from '@/components/ui/DownloadAllModal';
 
-type FilterType = 'Todos' | 'Tiendas' | 'Gastronomia';
+type FilterType = 'Todos' | 'Tiendas' | 'Gastronomia' | 'Eventos';
 
 export const Coupons = () => {
   const { data: session } = useSession();
@@ -57,17 +58,29 @@ export const Coupons = () => {
     return coupons.filter((coupon) => coupon.Categoria === filter);
   }, [filter, coupons]);
 
+  const groupedItems = useMemo(() => {
+    const map = new Map<number, CouponsInterface[]>();
+    for (const coupon of filteredCoupons) {
+      const arr = map.get(coupon.CampanaID) ?? [];
+      arr.push(coupon);
+      map.set(coupon.CampanaID, arr);
+    }
+    return Array.from(map.entries()).map(([campanaID, items]) => ({ campanaID, items }));
+  }, [filteredCoupons]);
+
   // Count by category
   const counts = useMemo(() => ({
     all: coupons.length,
     tiendas: coupons.filter((c) => c.Categoria === 'Tiendas').length,
     gastronomia: coupons.filter((c) => c.Categoria === 'Gastronomia').length,
+    boliche: coupons.filter((c) => c.Categoria === 'Eventos').length,
   }), [coupons]);
 
   const filterOptions = [
     { label: 'Todos', value: 'Todos' as FilterType, count: counts.all },
     { label: 'Tiendas', value: 'Tiendas' as FilterType, count: counts.tiendas },
     { label: 'Gastronomía', value: 'Gastronomia' as FilterType, count: counts.gastronomia },
+    { label: 'Eventos', value: 'Eventos' as FilterType, count: counts.boliche },
   ];
 
   // Extract first name for greeting
@@ -158,14 +171,18 @@ export const Coupons = () => {
         ) : filteredCoupons.length === 0 ? (
           <EmptyState
             icon="coupons"
-            title={`Sin cupones de ${filter === 'Tiendas' ? 'tiendas' : 'gastronomía'}`}
+            title={`Sin cupones de ${filter === 'Tiendas' ? 'tiendas' : filter === 'Gastronomia' ? 'gastronomía' : 'boliche'}`}
             description="No tienes cupones en esta categoría. Prueba con otra."
           />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[20px]">
-            {filteredCoupons.map((coupon) => (
-              <CouponCard key={coupon.CodigoQR} coupon={coupon} />
-            ))}
+            {groupedItems.map((group) =>
+              group.items.length === 1 ? (
+                <CouponCard key={group.campanaID} coupon={group.items[0]} />
+              ) : (
+                <GroupedCouponCard key={group.campanaID} coupons={group.items} />
+              )
+            )}
           </div>
         )}
 

@@ -34,6 +34,7 @@ export async function GET(request: NextRequest) {
       select: {
         CodigoQR: true,
         FechaExpiracion: true,
+        CampanaID: true,
         Campanas: {
           select: {
             MensajeCanje: true,
@@ -56,6 +57,7 @@ export async function GET(request: NextRequest) {
     const transformedCoupons = coupons.map((coupon) => ({
       CodigoQR: coupon.CodigoQR,
       FechaExpiracion: coupon.FechaExpiracion,
+      CampanaID: coupon.CampanaID,
       MensajeCanje: coupon.Campanas?.MensajeCanje || '',
       Nombre: coupon.Campanas?.Empresas?.Nombre || '',
       LogoUrl: coupon.Campanas?.Empresas?.LogoUrl || '',

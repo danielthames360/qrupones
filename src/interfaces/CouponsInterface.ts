@@ -1,4 +1,4 @@
-export type EmpresaCategoria = 'Tiendas' | 'Gastronomia';
+export type EmpresaCategoria = 'Tiendas' | 'Gastronomia' | 'Eventos';
 
 export interface CouponsInterface {
   CodigoQR: string;
@@ -7,4 +7,5 @@ export interface CouponsInterface {
   Nombre: string;
   LogoUrl: string;
   Categoria: EmpresaCategoria;
+  CampanaID: number;
 }

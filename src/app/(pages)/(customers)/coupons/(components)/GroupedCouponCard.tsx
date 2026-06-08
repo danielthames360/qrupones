@@ -1,21 +1,31 @@
 'use client';
 
-import { QrModal } from '@/components';
 import { CouponsInterface } from '@/interfaces';
 import Image from 'next/image';
 import { useState } from 'react';
 import { noLogo } from '@/app/(landingResources)/assets/images';
+import { MultiQrModal } from './MultiQrModal';
+import { DownloadAllModal } from '@/components/ui/DownloadAllModal';
 
-interface CouponCardProps {
-  coupon: CouponsInterface;
+interface GroupedCouponCardProps {
+  coupons: CouponsInterface[];
 }
 
-export const CouponCard = ({ coupon }: CouponCardProps) => {
-  const [qrModalOpen, setQrModalOpen] = useState(false);
+export const GroupedCouponCard = ({ coupons }: GroupedCouponCardProps) => {
+  const [multiModalOpen, setMultiModalOpen] = useState(false);
+  const [downloadAllOpen, setDownloadAllOpen] = useState(false);
 
-  // Calculate days until expiration
+  const first = coupons[0];
+  const count = coupons.length;
+
+  const earliestExpiration = coupons.reduce(
+    (earliest, c) =>
+      new Date(c.FechaExpiracion) < earliest ? new Date(c.FechaExpiracion) : earliest,
+    new Date(first.FechaExpiracion)
+  );
+
   const daysUntilExpiration = Math.ceil(
-    (new Date(coupon.FechaExpiracion).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+    (earliestExpiration.getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
   );
   const isExpiringSoon = daysUntilExpiration <= 7;
 
@@ -25,7 +35,6 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
         className="group bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-[2px]"
         style={{ fontSize: '16px' }}
       >
-        {/* Top gradient bar */}
         <div
           className={`h-[3px] ${
             isExpiringSoon
@@ -35,14 +44,13 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
         />
 
         <div className="p-[20px]">
-          {/* Header with logo and business name */}
+          {/* Header */}
           <div className="flex items-start gap-[16px] mb-[16px]">
-            {/* Logo */}
             <div className="flex-shrink-0 w-[72px] h-[72px] rounded-[12px] bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">
-              {coupon.LogoUrl ? (
+              {first.LogoUrl ? (
                 <Image
-                  src={coupon.LogoUrl}
-                  alt={coupon.Nombre}
+                  src={first.LogoUrl}
+                  alt={first.Nombre}
                   width={72}
                   height={72}
                   className="w-full h-full object-contain p-[8px]"
@@ -58,38 +66,45 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
               )}
             </div>
 
-            {/* Business info */}
             <div className="flex-1 min-w-0">
-              <h3
-                className="font-semibold text-[#002239] truncate mb-[4px]"
-                style={{ fontSize: '18px', textAlign: 'left' }}
-              >
-                {coupon.Nombre}
-              </h3>
+              <div className="flex items-center gap-[8px] mb-[4px]">
+                <h3
+                  className="font-semibold text-[#002239] truncate"
+                  style={{ fontSize: '18px', textAlign: 'left' }}
+                >
+                  {first.Nombre}
+                </h3>
+                <span
+                  className="flex-shrink-0 inline-flex items-center justify-center bg-[#a780b7]/10 text-[#a780b7] rounded-full font-semibold"
+                  style={{ fontSize: '11px', padding: '2px 8px' }}
+                >
+                  {count} cupones
+                </span>
+              </div>
               <span
                 className={`inline-flex items-center px-[10px] py-[3px] rounded-full ${
-                  coupon.Categoria === 'Gastronomia'
+                  first.Categoria === 'Gastronomia'
                     ? 'bg-orange-50 text-orange-600'
-                    : coupon.Categoria === 'Eventos'
+                    : first.Categoria === 'Eventos'
                     ? 'bg-purple-50 text-purple-600'
                     : 'bg-blue-50 text-blue-600'
                 }`}
                 style={{ fontSize: '12px', fontWeight: 500 }}
               >
-                {coupon.Categoria === 'Gastronomia' ? '🍽️' : coupon.Categoria === 'Eventos' ? '🎟️' : '🛍️'} {coupon.Categoria}
+                {first.Categoria === 'Gastronomia' ? '🍽️' : first.Categoria === 'Eventos' ? '🎟️' : '🛍️'} {first.Categoria}
               </span>
             </div>
           </div>
 
-          {/* Coupon message */}
+          {/* Campaign message */}
           <p
             className="text-gray-600 mb-[16px] line-clamp-2"
             style={{ fontSize: '15px', lineHeight: '1.5', textAlign: 'left' }}
           >
-            {coupon.MensajeCanje}
+            {first.MensajeCanje}
           </p>
 
-          {/* Expiration info */}
+          {/* Expiration — shows the nearest expiry */}
           <div
             className={`flex items-center gap-[8px] mb-[16px] px-[12px] py-[8px] rounded-[10px] ${
               isExpiringSoon ? 'bg-red-50' : 'bg-gray-50'
@@ -113,8 +128,8 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
               style={{ fontSize: '13px', fontWeight: 500 }}
             >
               {isExpiringSoon
-                ? `¡Expira en ${daysUntilExpiration} día${daysUntilExpiration === 1 ? '' : 's'}!`
-                : `Válido hasta ${new Date(coupon.FechaExpiracion).toLocaleDateString('es-ES', {
+                ? `¡El más cercano expira en ${daysUntilExpiration} día${daysUntilExpiration === 1 ? '' : 's'}!`
+                : `Válido hasta ${earliestExpiration.toLocaleDateString('es-ES', {
                     day: 'numeric',
                     month: 'short',
                     year: 'numeric',
@@ -124,7 +139,7 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
 
           {/* Action button */}
           <button
-            onClick={() => setQrModalOpen(true)}
+            onClick={() => setMultiModalOpen(true)}
             className="w-full bg-gradient-to-r from-[#a780b7] to-[#64cad8] text-white font-medium py-[14px] rounded-[12px] shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-[8px] group-hover:scale-[1.02]"
             style={{ fontSize: '15px' }}
           >
@@ -143,16 +158,26 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
               <rect x="14" y="14" width="7" height="7" />
               <rect x="3" y="14" width="7" height="7" />
             </svg>
-            Mostrar QR
+            Mostrar todos ({count})
           </button>
         </div>
       </div>
 
-      {qrModalOpen && (
-        <QrModal
-          onClose={() => setQrModalOpen(false)}
-          qrCode={coupon.CodigoQR}
-          businessName={coupon.Nombre}
+      {multiModalOpen && (
+        <MultiQrModal
+          coupons={coupons}
+          onClose={() => setMultiModalOpen(false)}
+          onDownloadAll={() => {
+            setMultiModalOpen(false);
+            setDownloadAllOpen(true);
+          }}
+        />
+      )}
+
+      {downloadAllOpen && (
+        <DownloadAllModal
+          onClose={() => setDownloadAllOpen(false)}
+          coupons={coupons.map((c) => ({ CodigoQR: c.CodigoQR, Nombre: c.Nombre }))}
         />
       )}
     </>
