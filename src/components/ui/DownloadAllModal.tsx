@@ -13,7 +13,7 @@ interface DownloadAllModalProps {
   coupons: { CodigoQR: string; Nombre: string }[];
 }
 
-const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL;
+const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL?.replace(/\/$/, '');
 
 function probeImage(url: string): Promise<boolean> {
   return new Promise((resolve) => {

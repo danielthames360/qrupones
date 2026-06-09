@@ -12,7 +12,7 @@ interface QrModalProps {
 export const QrModal = ({ onClose, qrCode, businessName }: QrModalProps) => {
   const [imageStatus, setImageStatus] = useState<'loading' | 'found' | 'not-found'>('loading');
   const [isSaving, setIsSaving] = useState(false);
-  const cloudinaryUrl = `${process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL}/${qrCode}.jpg`;
+  const cloudinaryUrl = `${process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL?.replace(/\/$/, '')}/${qrCode}.jpg`;
 
   const [viewportHeight, setViewportHeight] = useState<number | null>(null);
 

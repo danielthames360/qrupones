@@ -16,7 +16,7 @@ interface MultiQrModalProps {
   onDownloadAll: () => void;
 }
 
-const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL;
+const CLOUDINARY_BASE = process.env.NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL?.replace(/\/$/, '');
 
 export const MultiQrModal = ({ coupons, onClose, onDownloadAll }: MultiQrModalProps) => {
   const [items, setItems] = useState<QrItem[]>(

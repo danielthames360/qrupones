@@ -24,6 +24,10 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY --from=deps /app/src/generated ./src/generated
 
+# Build-time public env vars (NEXT_PUBLIC_* are embedded into the client bundle at build time)
+ARG NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL
+ENV NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL=$NEXT_PUBLIC_CLOUDINARY_COUPON_BASE_URL
+
 # Build the application
 RUN npm run build
 
