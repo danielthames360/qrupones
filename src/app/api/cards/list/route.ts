@@ -27,11 +27,13 @@ export async function GET(request: NextRequest) {
     }
 
     // TarjetasSellos guarda el telefono normalizado (solo digitos, pais numerico);
-    // SesionesClientes lo guarda tal como se cargo. Se normaliza antes de comparar.
+    // SesionesClientes lo guarda tal como se cargo. Se normaliza antes de comparar,
+    // igual que normalizePhone del backend (CodigoPais 0/vacio cae a 591).
     const celular = session.Celular.replace(/\D/g, '');
-    const codigoPais = parseInt(session.CodigoPais.replace(/\D/g, ''), 10);
+    const parsed = parseInt(session.CodigoPais.replace(/\D/g, ''), 10);
+    const codigoPais = Number.isNaN(parsed) || parsed <= 0 ? 591 : parsed;
 
-    if (celular.length === 0 || Number.isNaN(codigoPais)) {
+    if (celular.length < 6) {
       return errorResponse('Sesión no válida', 401);
     }
 
