@@ -39,10 +39,13 @@ model Campanas {
   APIchannelId        String?   @db.VarChar(50)
   APIprojectId        String?   @db.VarChar(50)
   APIversionId        String?   @db.VarChar(50)
+  SellosMeta          Int       @default(0)
+  SelloImagen         String?   @db.VarChar(255)
   createdAt           DateTime  @db.DateTime(0)
   updatedAt           DateTime  @db.DateTime(0)
   Empresas            Empresas  @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Campanas_ibfk_1")
   Cupones             Cupones[]
+  TarjetasSellos      TarjetasSellos[]
 
   @@index([EmpresaID], map: "EmpresaID")
 }
@@ -76,6 +79,7 @@ model Cupones {
   Sucursales      Sucursales? @relation(fields: [SucursalCanjeID], references: [SucursalID], map: "Cupones_ibfk_72")
   Campanas        Campanas?   @relation(fields: [CampanaID], references: [CampanaID], map: "Cupones_ibfk_73")
   Ventas          Ventas      @relation(fields: [VentaID], references: [VentaID], onDelete: Cascade, map: "Cupones_ibfk_74")
+  TarjetasSellos  TarjetasSellos[]
 
   @@index([CampanaID], map: "CampanaID")
   @@index([VentaID], map: "Cupones_ibfk_74")
@@ -168,6 +172,7 @@ model Sucursales {
   Empresas          Empresas            @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Sucursales_ibfk_1")
   Sucursales_Marcas Sucursales_Marcas[]
   Ventas            Ventas[]
+  Sellos            Sellos[]
 
   @@index([EmpresaID], map: "EmpresaID")
 }
@@ -220,6 +225,7 @@ model Ventas {
   createdAt              DateTime   @db.DateTime(0)
   updatedAt              DateTime   @db.DateTime(0)
   Cupones                Cupones[]
+  Sellos                 Sellos[]
   Usuarios               Usuarios   @relation(fields: [UsuarioVentaID], references: [UsuarioID], onDelete: NoAction, map: "Ventas_ibfk_37")
   Sucursales             Sucursales @relation(fields: [SucursalVentaID], references: [SucursalID], onDelete: NoAction, map: "Ventas_ibfk_38")
 
@@ -237,4 +243,47 @@ enum Empresas_Categoria {
   Tiendas
   Gastronomia
   Eventos
+}
+
+// Tarjetas de sellos digitales (spec seccion 5.2). Las tablas las crea
+// backend/sql/2026-08-sellos.sql; el portal solo lee. Nunca correr db push/migrate.
+model TarjetasSellos {
+  TarjetaID        Int       @id @default(autoincrement())
+  CampanaID        Int
+  CodigoPais       Int       @db.SmallInt
+  Celular          String    @db.VarChar(20)
+  ClienteNombre    String?   @db.VarChar(150)
+  Sellos           Int       @default(0)
+  Meta             Int
+  Estado           Int       @default(0) @db.TinyInt
+  FechaUltimoSello DateTime? @db.DateTime(0)
+  FechaCompleta    DateTime? @db.DateTime(0)
+  CuponPremioID    Int?
+  createdAt        DateTime  @db.DateTime(0)
+  updatedAt        DateTime  @db.DateTime(0)
+  Campanas         Campanas  @relation(fields: [CampanaID], references: [CampanaID], onDelete: NoAction, onUpdate: NoAction, map: "fk_tarjeta_campana")
+  Cupones          Cupones?  @relation(fields: [CuponPremioID], references: [CuponID], onDelete: NoAction, onUpdate: NoAction, map: "fk_tarjeta_premio")
+  // La lista se llama SellosDetalle porque "Sellos" ya es la columna contador.
+  SellosDetalle    Sellos[]
+
+  @@index([CampanaID, CodigoPais, Celular, Estado], map: "ix_tarjeta_tel")
+  @@index([CodigoPais, Celular, Estado], map: "ix_tarjeta_cel")
+  @@index([CuponPremioID], map: "fk_tarjeta_premio")
+}
+
+model Sellos {
+  SelloID        Int            @id @default(autoincrement())
+  TarjetaID      Int
+  VentaID        Int
+  SucursalID     Int
+  Numero         Int            @db.SmallInt
+  createdAt      DateTime       @db.DateTime(0)
+  updatedAt      DateTime       @db.DateTime(0)
+  TarjetasSellos TarjetasSellos @relation(fields: [TarjetaID], references: [TarjetaID], onDelete: NoAction, onUpdate: NoAction, map: "fk_sello_tarjeta")
+  Ventas         Ventas         @relation(fields: [VentaID], references: [VentaID], onDelete: NoAction, onUpdate: NoAction, map: "fk_sello_venta")
+  // Sin FK en la base: la relacion existe solo del lado de Prisma, para traer el nombre de la sucursal.
+  Sucursales     Sucursales     @relation(fields: [SucursalID], references: [SucursalID], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([VentaID, TarjetaID], map: "ux_sello_venta")
+  @@index([TarjetaID], map: "fk_sello_tarjeta")
 }
