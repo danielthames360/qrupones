@@ -3,7 +3,6 @@
 import { endpoints } from '@/constants/endpoints';
 import { useFetchApi } from '@/hooks/useFetchApi';
 import { StampCardInterface } from '@/interfaces';
-import { StampCardSkeleton } from '@/components/ui/Skeleton';
 import { useSession } from 'next-auth/react';
 import { StampCard } from './StampCard';
 
@@ -14,13 +13,8 @@ export const StampCards = () => {
     enabled: !!session,
   });
 
-  if (isLoading) {
-    return (
-      <div className="mb-[32px]">
-        <StampCardSkeleton />
-      </div>
-    );
-  }
+  // Mientras carga, la grilla de cupones ya muestra su propio skeleton; no duplicar.
+  if (isLoading) return null;
 
   // Sin tarjetas el bloque no existe (spec 11.3).
   if (cards.length === 0) return null;

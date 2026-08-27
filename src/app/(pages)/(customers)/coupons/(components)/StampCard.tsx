@@ -39,6 +39,7 @@ export const StampCard = ({ card }: StampCardProps) => {
   const ultimoSello = card.sellos.length > 0 ? card.sellos[card.sellos.length - 1] : null;
   const usaSelloImagen = card.Campana.SelloImagen !== '' && !selloFallo;
   const mostrarHeader = card.Campana.Fondo !== '' && !headerFallo;
+  const premio = card.Campana.MensajeCanje.trim() !== '' ? card.Campana.MensajeCanje : 'tu premio';
 
   return (
     <>
@@ -150,7 +151,7 @@ export const StampCard = ({ card }: StampCardProps) => {
 
             {/* 4. Pie */}
             <p className="font-bold" style={{ fontSize: '15px', textAlign: 'center', color }}>
-              ¡Sellá todos y ganá {card.Campana.MensajeCanje}!
+              ¡Sellá todos y ganá {premio}!
             </p>
             <p className="text-gray-500 mt-[4px]" style={{ fontSize: '13px', textAlign: 'center' }}>
               {sellados} de {meta}
@@ -169,13 +170,13 @@ export const StampCard = ({ card }: StampCardProps) => {
                 {card.premio
                   ? card.premio.FechaExpiracion
                     ? `Válido hasta ${formatDate(card.premio.FechaExpiracion)}`
-                    : card.Campana.MensajeCanje
+                    : premio
                   : 'Te lo enviamos por WhatsApp en unos minutos.'}
               </p>
             </div>
           ) : (
             <p className="text-gray-600 mb-[12px]" style={{ fontSize: '14px', textAlign: 'left' }}>
-              Te {faltan === 1 ? 'falta' : 'faltan'} {faltan} para: {card.Campana.MensajeCanje}
+              Te {faltan === 1 ? 'falta' : 'faltan'} {faltan} para: {premio}
             </p>
           )}
 
