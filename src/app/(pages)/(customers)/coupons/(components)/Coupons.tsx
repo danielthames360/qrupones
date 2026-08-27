@@ -11,6 +11,7 @@ import { CouponsLoadingSkeleton } from '@/components/ui/Skeleton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import Link from 'next/link';
 import { DownloadAllModal } from '@/components/ui/DownloadAllModal';
+import { StampCards } from './StampCards';
 
 type FilterType = 'Todos' | 'Tiendas' | 'Gastronomia' | 'Eventos';
 
@@ -145,6 +146,9 @@ export const Coupons = () => {
             </div>
           )}
         </div>
+
+        {/* Mis tarjetas de sellos */}
+        <StampCards />
 
         {/* Filter Tabs */}
         {!isLoading && coupons.length > 0 && (
