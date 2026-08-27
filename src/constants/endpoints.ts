@@ -7,5 +7,8 @@ export const endpoints = {
     list: '/api/coupons/list',
     history: '/api/coupons/history',
   },
+  cards: {
+    list: '/api/cards/list',
+  },
   notifications: '/api/notifications',
 };
