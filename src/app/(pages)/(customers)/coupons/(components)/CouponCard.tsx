@@ -1,10 +1,8 @@
 'use client';
 
-import { QrModal } from '@/components';
+import { BusinessHeader, QrModal } from '@/components';
 import { CouponsInterface } from '@/interfaces';
-import Image from 'next/image';
 import { useState } from 'react';
-import { noLogo } from '@/app/(landingResources)/assets/images';
 
 interface CouponCardProps {
   coupon: CouponsInterface;
@@ -37,48 +35,7 @@ export const CouponCard = ({ coupon }: CouponCardProps) => {
         <div className="p-[20px]">
           {/* Header with logo and business name */}
           <div className="flex items-start gap-[16px] mb-[16px]">
-            {/* Logo */}
-            <div className="flex-shrink-0 w-[72px] h-[72px] rounded-[12px] bg-gray-50 flex items-center justify-center overflow-hidden border border-gray-100">
-              {coupon.LogoUrl ? (
-                <Image
-                  src={coupon.LogoUrl}
-                  alt={coupon.Nombre}
-                  width={72}
-                  height={72}
-                  className="w-full h-full object-contain p-[8px]"
-                />
-              ) : (
-                <Image
-                  src={noLogo}
-                  alt="Sin logo"
-                  width={48}
-                  height={48}
-                  className="w-[48px] h-[48px] opacity-40"
-                />
-              )}
-            </div>
-
-            {/* Business info */}
-            <div className="flex-1 min-w-0">
-              <h3
-                className="font-semibold text-[#002239] truncate mb-[4px]"
-                style={{ fontSize: '18px', textAlign: 'left' }}
-              >
-                {coupon.Nombre}
-              </h3>
-              <span
-                className={`inline-flex items-center px-[10px] py-[3px] rounded-full ${
-                  coupon.Categoria === 'Gastronomia'
-                    ? 'bg-orange-50 text-orange-600'
-                    : coupon.Categoria === 'Eventos'
-                    ? 'bg-purple-50 text-purple-600'
-                    : 'bg-blue-50 text-blue-600'
-                }`}
-                style={{ fontSize: '12px', fontWeight: 500 }}
-              >
-                {coupon.Categoria === 'Gastronomia' ? '🍽️' : coupon.Categoria === 'Eventos' ? '🎟️' : '🛍️'} {coupon.Categoria}
-              </span>
-            </div>
+            <BusinessHeader nombre={coupon.Nombre} logoUrl={coupon.LogoUrl} categoria={coupon.Categoria} />
           </div>
 
           {/* Coupon message */}

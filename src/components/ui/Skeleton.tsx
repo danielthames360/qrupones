@@ -82,3 +82,30 @@ export const HistoryLoadingSkeleton = () => {
     </div>
   );
 };
+
+// Skeleton for a stamp card
+export const StampCardSkeleton = () => {
+  return (
+    <div
+      className="bg-white rounded-[20px] p-[20px] shadow-md"
+      style={{ fontSize: '16px' }}
+    >
+      <div className="flex items-center gap-[16px] mb-[16px]">
+        <Skeleton className="w-[72px] h-[72px] rounded-[12px] flex-shrink-0" />
+        <div className="flex-1 space-y-[8px]">
+          <Skeleton className="h-[18px] w-[60%]" />
+          <Skeleton className="h-[14px] w-[40%]" />
+        </div>
+      </div>
+      <Skeleton className="h-[20px] w-[70%] mx-auto mb-[16px]" />
+      <div className="grid grid-cols-5 gap-[12px] mb-[16px]">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} style={{ aspectRatio: '1' }}>
+            <Skeleton className="w-full h-full rounded-full" />
+          </div>
+        ))}
+      </div>
+      <Skeleton className="h-[16px] w-[80%] mx-auto" />
+    </div>
+  );
+};
