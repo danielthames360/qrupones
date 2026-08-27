@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
         AND v.CodigoPais = ${codigoPais}
         AND (c.EstadoQR > 0 OR c.FechaExpiracion <= CURDATE())
         -- EstadoQR = 5 es el marcador que escribe el daemon por cada venta de una campana de sellos; no es un cupon canjeable.
-        AND c.EstadoQR <> 5
+        AND (c.EstadoQR IS NULL OR c.EstadoQR <> 5)
       ORDER BY c.CuponID DESC
     `;
 
