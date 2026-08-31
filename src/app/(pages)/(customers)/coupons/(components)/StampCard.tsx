@@ -26,7 +26,6 @@ const formatDate = (value: string | null) => {
 export const StampCard = ({ card }: StampCardProps) => {
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [headerFallo, setHeaderFallo] = useState(false);
   const [selloFallo, setSelloFallo] = useState(false);
 
   const color = card.Campana.LetrasNegras;
@@ -38,7 +37,6 @@ export const StampCard = ({ card }: StampCardProps) => {
   const titulo = nombre ? `Tarjeta de ${nombre}` : 'Tu tarjeta de sellos';
   const ultimoSello = card.sellos.length > 0 ? card.sellos[card.sellos.length - 1] : null;
   const usaSelloImagen = card.Campana.SelloImagen !== '' && !selloFallo;
-  const mostrarHeader = card.Campana.Fondo !== '' && !headerFallo;
   const premio = card.Campana.MensajeCanje.trim() !== '' ? card.Campana.MensajeCanje : 'tu premio';
 
   return (
@@ -66,19 +64,6 @@ export const StampCard = ({ card }: StampCardProps) => {
           className="w-full block text-left"
           aria-expanded={expanded}
         >
-          {/* 1. Header: la imagen Fondo va al borde, sin margen */}
-          {mostrarHeader && (
-            // Fondo puede ser una ruta local del escritorio o un host fuera de la allow-list de next/image, que fallaria en runtime.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={card.Campana.Fondo}
-              alt=""
-              onError={() => setHeaderFallo(true)}
-              className="w-full"
-              style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
-            />
-          )}
-
           <div className="px-[20px] pt-[16px] pb-[8px]">
             {/* 2. Nombre, en mayusculas (spec seccion 6) */}
             <p
@@ -100,7 +85,6 @@ export const StampCard = ({ card }: StampCardProps) => {
             >
               {Array.from({ length: meta }, (_, i) => i + 1).map((numero) => {
                 const sellado = numero <= sellados;
-                const ultimo = numero === meta;
                 return (
                   <div
                     key={numero}
@@ -137,8 +121,6 @@ export const StampCard = ({ card }: StampCardProps) => {
                           <polyline points="20 6 9 17 4 12" />
                         </svg>
                       )
-                    ) : ultimo ? (
-                      <span style={{ fontSize: '13px', fontWeight: 700, color }}>Free</span>
                     ) : (
                       <span style={{ fontSize: '14px', color: GRIS_CONTORNO }}>
                         {String(numero).padStart(2, '0')}
