@@ -65,7 +65,7 @@ export async function GET(request: NextRequest) {
           select: {
             Nombre: true,
             MensajeCanje: true,
-            Fondo: true,
+            SelloHeader: true,
             SelloImagen: true,
             LetrasNegras: true,
             Empresas: {
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest) {
       Campana: {
         Nombre: tarjeta.Campanas.Nombre,
         MensajeCanje: tarjeta.Campanas.MensajeCanje || '',
-        Fondo: tarjeta.Campanas.Fondo || '',
+        SelloHeader: tarjeta.Campanas.SelloHeader || '',
         SelloImagen: tarjeta.Campanas.SelloImagen || '',
         LetrasNegras: tarjeta.Campanas.LetrasNegras || COLOR_POR_DEFECTO,
       },

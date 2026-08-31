@@ -33,7 +33,8 @@ export interface StampCardInterface {
   Campana: {
     Nombre: string;
     MensajeCanje: string;
-    Fondo: string;
+    /** header de la tarjeta */
+    SelloHeader: string;
     SelloImagen: string;
     LetrasNegras: string;
   };

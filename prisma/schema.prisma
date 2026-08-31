@@ -41,6 +41,7 @@ model Campanas {
   APIversionId        String?   @db.VarChar(50)
   SellosMeta          Int       @default(0)
   SelloImagen         String?   @db.VarChar(255)
+  SelloHeader         String?   @db.VarChar(255)
   createdAt           DateTime  @db.DateTime(0)
   updatedAt           DateTime  @db.DateTime(0)
   Empresas            Empresas  @relation(fields: [EmpresaID], references: [EmpresaID], onDelete: NoAction, map: "Campanas_ibfk_1")
