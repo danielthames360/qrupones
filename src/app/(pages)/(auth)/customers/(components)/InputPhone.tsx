@@ -44,8 +44,10 @@ const InputPhone = memo(function InputPhone({ input, setInput, setIsValidPhone, 
       enableLongNumbers={true}
       countryCodeEditable={true}
       isValid={(inputNumber, country) => {
-        const isValid = validateOptionalPhoneNumber(inputNumber, getLocaleCodeFromPhoneCode((country as Country).countryCode));
-        return isValid;
+        const { dialCode, countryCode } = country as Country;
+        // Al montar, react-phone-input-2 precarga el dial code del pais: sin digitos propios todavia no hay nada que validar.
+        if (inputNumber.replace(/\D/g, '').length <= dialCode.length) return true;
+        return validateOptionalPhoneNumber(inputNumber, getLocaleCodeFromPhoneCode(countryCode));
       }}
     />
   );
